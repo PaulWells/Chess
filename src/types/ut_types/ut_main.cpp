@@ -4,7 +4,6 @@
 int main()
 {
   std::cout << "Running Type Tests\n";
-  ChessPieceTypesTest* chessPieceTypesTest = new ChessPieceTypesTest();
+  std::unique_ptr<ChessPieceTypesTest> chessPieceTypesTest(new ChessPieceTypesTest());
   chessPieceTypesTest->RunTests();
-  delete chessPieceTypesTest;
 }
