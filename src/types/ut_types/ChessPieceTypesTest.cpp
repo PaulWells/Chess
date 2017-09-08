@@ -2,6 +2,7 @@
 #include "../ChessPieceHelpers.hpp"
 #include "ChessPieceTypesTest.hpp"
 #include <iostream>
+#include "../../../test/TerminalColors.hpp"
 
 void ChessPieceTypesTest::RunTests()
 {
@@ -11,10 +12,10 @@ void ChessPieceTypesTest::RunTests()
         !ChessPieceHelpers::IsPawn(0x00) &&
         ChessPieceHelpers::IsPawn(0x01))
     {
-        std::cout << "Test Passed\n";
+        std::cout << TerminalColor::Green << "Test Passed\n" << TerminalColor::Reset;
     }
     else
     {
-        std::cout << "Test Failed\n";
+        std::cout << TerminalColor::Red << "Test Failed\n" << TerminalColor::Reset;
     }
 }
