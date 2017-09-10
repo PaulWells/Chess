@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 // This file specifies the types of the pieces used in Chess.
 
 // Chess pieces.
@@ -6,51 +7,30 @@
 // 3 bits specify the type of the piece (pawn, king etc).  The
 // remaining bits are one-hot encoded with state information such
 // as the color of a piece and whether that piece has already moved.
-typedef unsigned char ChessPiece;
+typedef uint8_t ChessPiece;
 
-enum struct ChessPieceType : unsigned char
+namespace ChessPieceType
 {
-    EmptySquare = 0x0000,
-    Pawn = 0x0001,
-    Knight = 0x0002,
-    Bishop = 0x0003,
-    Castle = 0x0004,
-    Queen = 0x0005,
-    King = 0x0006
+    const uint8_t EmptySquare = 0x00;
+    const uint8_t Pawn = 0x01;
+    const uint8_t Knight = 0x02;
+    const uint8_t Bishop = 0x03;
+    const uint8_t Castle = 0x04;
+    const uint8_t Queen = 0x05;
+    const uint8_t King = 0x06;
 };
 
-bool operator ==(ChessPieceType a, unsigned char b)
-{
-    return (static_cast<unsigned char>(a) == b);
-}
-
-bool operator ==(unsigned char a, ChessPieceType b)
-{
-    return (static_cast<unsigned char>(b) == a);
-}
-
-
-enum struct ChessPieceMask : unsigned char
+namespace ChessPieceMask
 {
     // 0 for white, 1 for black.
-    ColorMask = 0x0080,
+    const uint8_t Color = 0x80;
 
     // 1 if the piece has already moved this game.
-    HasMovedMask = 0x0040,
+    const uint8_t HasMoved = 0x40;
 
     // 1 If the piece is a pawn and moved forward two spots on the previous turn.
-    EnPassantMask = 0x0020,
+    const uint8_t EnPassant = 0x20;
 
     // If any of these bits are not zero then the square contains a chess piece.
-    PieceTypeMask = 0x0007
+    const uint8_t PieceType = 0x07;
 };
-
-bool operator &(ChessPieceMask a, unsigned char b)
-{
-    return (static_cast<unsigned char>(a) & b);
-}
-
-bool operator &(unsigned char a, ChessPieceMask b)
-{
-    return (static_cast<unsigned char>(b) & a);
-}
