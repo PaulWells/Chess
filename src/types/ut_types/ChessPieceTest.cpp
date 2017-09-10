@@ -1,15 +1,15 @@
-#include "../ChessPieceTypes.hpp"
-#include "../ChessPieceHelpers.hpp"
-#include "ChessPieceTypesTest.hpp"
+
+#include "../ChessPiece.hpp"
+#include "ChessPieceTest.hpp"
 #include <iostream>
 
-void ChessPieceTypesTest::RunTests(std::shared_ptr<Test> test)
+void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
 {
-    std::cout << "ChessPieceTypesTest::RunTests" << std::endl;
+    test->set_name("ChessPieceTest");
 
     const ChessPiece emptySquare = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
-    const ChessPiece pawnNoEnPassant = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
-    const ChessPiece pawnEnPassant = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, true);
+    const ChessPiece pawnNotJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
+    const ChessPiece pawnJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, true);
     const ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
     const ChessPiece blackKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, true, false, false);
     const ChessPiece blackBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, true, true, false);
@@ -18,7 +18,7 @@ void ChessPieceTypesTest::RunTests(std::shared_ptr<Test> test)
     const ChessPiece queen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, false, false);
     const ChessPiece king = ChessPieceHelpers::MakeChessPiece(ChessPieceType::King, false, false, false);
 
-    test->assert_true(ChessPieceHelpers::IsEmptySquare(emptySquare), "emptySquare is a EmptySquare");
+    test->assert_true(ChessPieceHelpers::IsEmptySquare(emptySquare), "emptySquare is an EmptySquare");
     test->assert_false(ChessPieceHelpers::IsPawn(emptySquare), "emptySquare is not a pawn");
     test->assert_false(ChessPieceHelpers::IsKnight(emptySquare), "emptySquare is not a knight");
     test->assert_false(ChessPieceHelpers::IsBishop(emptySquare), "emptySquare is not a bishop");
@@ -26,17 +26,17 @@ void ChessPieceTypesTest::RunTests(std::shared_ptr<Test> test)
     test->assert_false(ChessPieceHelpers::IsQueen(emptySquare), "emptySquare is not a queen");
     test->assert_false(ChessPieceHelpers::IsKing(emptySquare), "emptySquare is not a king");
 
-    test->assert_true(ChessPieceHelpers::IsPawn(pawnNoEnPassant), "pawnNoEnPassant is a Pawn");
-    test->assert_false(ChessPieceHelpers::IsEmptySquare(pawnNoEnPassant), "pawnNoEnPassant is not a EmptySquare");
-    test->assert_false(ChessPieceHelpers::IsKnight(pawnNoEnPassant), "pawnNoEnPassant is not a Knight");
-    test->assert_false(ChessPieceHelpers::IsBishop(pawnNoEnPassant), "pawnNoEnPassant is not a Bishop");
-    test->assert_false(ChessPieceHelpers::IsCastle(pawnNoEnPassant), "pawnNoEnPassant is not a Castle");
-    test->assert_false(ChessPieceHelpers::IsQueen(pawnNoEnPassant), "pawnNoEnPassant is not a Queen");
-    test->assert_false(ChessPieceHelpers::IsKing(pawnNoEnPassant), "pawnNoEnPassant is not a King");
-    test->assert_false(ChessPieceHelpers::JustPerformedEnPassant(pawnNoEnPassant), "pawnNoEnPassant did not just perform an EnPassant");
+    test->assert_true(ChessPieceHelpers::IsPawn(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is a Pawn");
+    test->assert_false(ChessPieceHelpers::IsEmptySquare(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a EmptySquare");
+    test->assert_false(ChessPieceHelpers::IsKnight(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a Knight");
+    test->assert_false(ChessPieceHelpers::IsBishop(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a Bishop");
+    test->assert_false(ChessPieceHelpers::IsCastle(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a Castle");
+    test->assert_false(ChessPieceHelpers::IsQueen(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a Queen");
+    test->assert_false(ChessPieceHelpers::IsKing(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces is not a King");
+    test->assert_false(ChessPieceHelpers::JustMovedTwoSpaces(pawnNotJustMovedTwoSpaces), "pawnNotJustMovedTwoSpaces did not just move two spaces");
 
-    test->assert_true(ChessPieceHelpers::IsPawn(pawnEnPassant), "pawnEnPassant is a pawn");
-    test->assert_true(ChessPieceHelpers::JustPerformedEnPassant(pawnEnPassant), "pawnEnPassant just performed EnPassant");
+    test->assert_true(ChessPieceHelpers::IsPawn(pawnJustMovedTwoSpaces), "pawnJustMovedTwoSpaces is a pawn");
+    test->assert_true(ChessPieceHelpers::JustMovedTwoSpaces(pawnJustMovedTwoSpaces), "pawnJustMovedTwoSpaces just moved two spaces");
 
     test->assert_true(ChessPieceHelpers::IsKnight(whiteKnight), "whiteKnight is a knight");
     test->assert_false(ChessPieceHelpers::IsEmptySquare(whiteKnight), "whiteKnight is not a empty square");
@@ -93,5 +93,7 @@ void ChessPieceTypesTest::RunTests(std::shared_ptr<Test> test)
     test->assert_false(ChessPieceHelpers::IsCastle(king), "king is not a castle");
     test->assert_false(ChessPieceHelpers::IsQueen(king), "king is not a queen");
     test->assert_true(ChessPieceHelpers::IsKing(king), "king is a king");
+
+    test->assert_true(ChessPieceHelpers::GetPieceType(king) == ChessPieceType::King, "GetPieceType returns the correct type");
 
 };

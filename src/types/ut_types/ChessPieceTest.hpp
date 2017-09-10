@@ -1,7 +1,7 @@
 #include <memory>
 #include "../../../test/Test.hpp"
 
-class ChessPieceTypesTest
+class ChessPieceTest
 {
 public:
     void RunTests(std::shared_ptr<Test> test);

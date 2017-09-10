@@ -45,5 +45,5 @@ void TestHarness::OnTestsComplete() const
     {
         std::cout << TerminalColor::Red;
     }
-    std::cout << "Tests Failed: " << numTestsFailed << std::endl << TerminalColor::Reset;
+    std::cout << "Tests Failed: " << numTestsFailed << std::endl << TerminalColor::Reset << std::endl;
 }
