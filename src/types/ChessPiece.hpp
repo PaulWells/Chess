@@ -131,4 +131,11 @@ namespace ChessPieceHelpers
     {
         return (piece & ChessPieceMask::PieceType);
     }
+
+    inline bool SameColor(ChessPiece piece1, ChessPiece piece2)
+    {
+        return (IsBlack(piece1) == IsBlack(piece2) &&
+               GetPieceType(piece1) != ChessPieceType::EmptySquare &&
+               GetPieceType(piece2) != ChessPieceType::EmptySquare);
+    }
 };

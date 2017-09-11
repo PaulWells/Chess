@@ -19,4 +19,7 @@ class MoveFinder
 public:
     static MoveSet FindMoves(ChessBoard board, Square square);
 private:
+    static MoveSet GetKnightMoveSet(ChessBoard board, Square square);
+    static bool ValidateKnightMove(ChessBoard board, Square square, Distance distance);
+    static Move CreateKnightMove(ChessBoard board, Square square, Distance distance);
 };

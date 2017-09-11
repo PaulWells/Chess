@@ -96,4 +96,12 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
 
     test->assert_true(ChessPieceHelpers::GetPieceType(king) == ChessPieceType::King, "GetPieceType returns the correct type");
 
+    ChessPiece whiteQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, false, false);
+    test->assert_true(ChessPieceHelpers::SameColor(whiteKnight, whiteQueen), "whiteKnight and whiteQueen are the same color");
+    test->assert_false(ChessPieceHelpers::SameColor(whiteKnight, blackKnight), "whiteKnight and blackKnight are not the same color");
+    test->assert_true(ChessPieceHelpers::SameColor(blackKnight, blackBishopHasMoved), "blackKnight and blackBishopHasMoved are the same color");
+    test->assert_false(ChessPieceHelpers::SameColor(blackKnight, emptySquare), "black piece and emptySquare are not the same color");
+    test->assert_false(ChessPieceHelpers::SameColor(whiteKnight, emptySquare), "white piece and emptySquare are not the same color");
+
+
 };

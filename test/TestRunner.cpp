@@ -2,6 +2,8 @@
 #include <memory>
 #include "../src/types/ut_types/ChessPieceTest.hpp"
 #include "../src/types/ut_types/ChessBoardTest.hpp"
+#include "../src/moves/ut_moves/MoveFinderTest.hpp"
+#include "../src/moves/ut_moves/KnightMovesTest.hpp"
 #include "../src/types/ChessBoard.hpp"
 #include "TestHarness.hpp"
 
@@ -15,6 +17,12 @@ int main()
 
   std::unique_ptr<ChessBoardTest> chessBoardTest(new ChessBoardTest());
   chessBoardTest->RunTests(testHarness->NewTest());
+
+  std::unique_ptr<MoveFinderTest> moveFinderTest(new MoveFinderTest());
+  moveFinderTest->RunTests(testHarness->NewTest());
+
+  std::unique_ptr<KnightMovesTest> knightMovesTest(new KnightMovesTest());
+  knightMovesTest->RunTests(testHarness->NewTest());
 
   testHarness->OnTestsComplete();
 }
