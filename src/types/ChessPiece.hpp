@@ -138,4 +138,44 @@ namespace ChessPieceHelpers
                GetPieceType(piece1) != ChessPieceType::EmptySquare &&
                GetPieceType(piece2) != ChessPieceType::EmptySquare);
     }
+
+    inline std::string PieceTypeToString(uint8_t pieceType)
+    {
+        std::string pieceTypeAsString;
+        switch(pieceType)
+        {
+            case ChessPieceType::EmptySquare:
+                pieceTypeAsString.assign("Empty Square");
+            break;
+            case ChessPieceType::Pawn:
+                pieceTypeAsString.assign("Pawn");
+            break;
+            case ChessPieceType::Knight:
+                pieceTypeAsString.assign("Knight");
+            break;
+            case ChessPieceType::Bishop:
+                pieceTypeAsString.assign("Bishop");
+            break;
+            case ChessPieceType::Castle:
+                pieceTypeAsString.assign("Castle");
+            break;
+            case ChessPieceType::Queen:
+                pieceTypeAsString.assign("Queen");
+            break;
+            case ChessPieceType::King:
+                pieceTypeAsString.assign("King");
+            break;
+            default:
+            std::cerr << "Unidentified PieceType: PieceTypeToString";
+        }
+        return pieceTypeAsString;
+    }
 };
+
+inline std::ostream& operator<<(std::ostream& os, const ChessPiece& piece)
+{
+    std::string color = (ChessPieceHelpers::IsBlack(piece) ? "Black" : "White");
+    std::string type = (ChessPieceHelpers::PieceTypeToString(ChessPieceHelpers::GetPieceType(piece)));
+    os << color << " " << type;
+    return os;
+}

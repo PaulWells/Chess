@@ -102,6 +102,4 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
     test->assert_true(ChessPieceHelpers::SameColor(blackKnight, blackBishopHasMoved), "blackKnight and blackBishopHasMoved are the same color");
     test->assert_false(ChessPieceHelpers::SameColor(blackKnight, emptySquare), "black piece and emptySquare are not the same color");
     test->assert_false(ChessPieceHelpers::SameColor(whiteKnight, emptySquare), "white piece and emptySquare are not the same color");
-
-
 };
