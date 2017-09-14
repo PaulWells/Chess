@@ -22,6 +22,12 @@ struct Distance
     int columnDistance;
 };
 
+inline std::ostream& operator<<(std::ostream& os, const Distance& distance)
+{
+    os << "Distance: (" <<  distance.rowDistance << ", " << distance.columnDistance << ")" << std::endl;
+    return os;
+}
+
 namespace ChessBoardHelpers
 {
     inline void ClearBoard(ChessBoard board)
