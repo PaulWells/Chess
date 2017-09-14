@@ -9,8 +9,6 @@
 
 int main()
 {
-  std::cout << "Running Type Tests\n";
-
   std::unique_ptr<ChessPieceTest> chessPieceTest(new ChessPieceTest());
   std::unique_ptr<TestHarness> testHarness(new TestHarness());
   chessPieceTest->RunTests(testHarness->NewTest());

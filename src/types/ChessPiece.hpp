@@ -176,6 +176,13 @@ inline std::ostream& operator<<(std::ostream& os, const ChessPiece& piece)
 {
     std::string color = (ChessPieceHelpers::IsBlack(piece) ? "Black" : "White");
     std::string type = (ChessPieceHelpers::PieceTypeToString(ChessPieceHelpers::GetPieceType(piece)));
-    os << color << " " << type;
+    if (ChessPieceHelpers::GetPieceType(piece) == ChessPieceType::EmptySquare)
+    {
+        os << type;
+    }
+    else
+    {
+        os << color << " " << type;
+    }
     return os;
 }

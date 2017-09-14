@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <memory>
 #include "MoveFinder.hpp"
 #include "../types/ChessBoard.hpp"
 #include "../types/ChessPiece.hpp"
@@ -16,55 +18,54 @@ static Distance knightDistances[MAX_KNIGHT_MOVES] = {
 };
 
 // The square represents the piece to find moves for.
-MoveSet MoveFinder::FindMoves(ChessBoard board, Square square)
+std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Square square)
 {
     ChessPiece piece = ChessBoardHelpers::PieceAt(board, square);
-    MoveSet moveSet;
+    std::unique_ptr<std::vector<Move>> moves;
 
     switch (ChessPieceHelpers::GetPieceType(piece))
     {
         case ChessPieceType::EmptySquare:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Pawn:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Bishop:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Knight:
-            moveSet = GetKnightMoveSet(board, square);
+            moves = GetKnightMoveSet(board, square);
         break;
         case ChessPieceType::Castle:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Queen:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::King:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         default:
-            moveSet = { nullptr, 0 };
+            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
             std::cerr << "MoveFinder::FindMoves switch (ChessPieceHelpers::GetPieceType(piece)) default should not be hit" << std::endl;
     }
-    return moveSet;
+    return moves;
 }
 
-MoveSet MoveFinder::GetKnightMoveSet(ChessBoard board, Square square)
+std::unique_ptr<std::vector<Move>> MoveFinder::GetKnightMoveSet(ChessBoard board, Square square)
 {
-    int moveCount = 0;
-    Move moves[MAX_KNIGHT_MOVES];
+    std::unique_ptr<std::vector<Move>> moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
+    moves->reserve(MAX_KNIGHT_MOVES);
     for (int i = 0; i < MAX_KNIGHT_MOVES; i++ )
     {
         if (ValidateKnightMove(board, square, knightDistances[i]))
         {
             Move move = CreateKnightMove(board, square, knightDistances[i]);
-            moves[moveCount] = move;
-            moveCount++;
+            moves->push_back(move);
         }
     }
-    return { moves, moveCount };
+    return std::move(moves);
 }
 
 bool MoveFinder::ValidateKnightMove(ChessBoard board, Square square, Distance distance)
