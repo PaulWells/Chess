@@ -1,9 +1,54 @@
 #pragma once
 #include "ChessPiece.hpp"
+#include "../util/TerminalColor.hpp"
 
 static const int BOARD_WIDTH = 8;
+static const int ROW_SCALE_FACTOR = 3;
+static const int ROW_MIDDLE = (ROW_SCALE_FACTOR - 1) / 2;
 
 typedef ChessPiece ChessBoard[BOARD_WIDTH][BOARD_WIDTH];
+
+inline std::ostream& operator<<(std::ostream& os, const ChessBoard& board)
+{
+    os << std::endl;
+    bool isBlack = false;
+    for (int row = 0; row < BOARD_WIDTH * ROW_SCALE_FACTOR; row++)
+    {
+        bool isTextRow = (row % ROW_SCALE_FACTOR == ROW_MIDDLE);
+        bool isFirstRow = (row % ROW_SCALE_FACTOR == 0);
+        if (isFirstRow)
+        {
+            isBlack = !isBlack;
+        }
+        for (int column = 0; column < BOARD_WIDTH; column++)
+        {
+            isBlack = !isBlack;
+            if (isBlack)
+            {
+                TerminalColor::SetBackgroundBlack();
+            }
+            else
+            {
+                TerminalColor::SetBackgroundWhite();
+            }
+
+
+            if (isTextRow)
+            {
+                std::cout << TerminalColor::Grey() << " ";
+                std::cout << board[(row - ROW_MIDDLE) / ROW_SCALE_FACTOR][column];
+            }
+            else
+            {
+                std::cout << TerminalColor::Grey() << "\t" << TerminalColor::Reset();
+            }
+        }
+        std::cout << std::endl;
+    }
+    // TerminalColor::SetBackgroundBlack();
+    std::cout << TerminalColor::Reset();
+    return os;
+}
 
 struct Square
 {
@@ -36,7 +81,7 @@ namespace ChessBoardHelpers
         {
             for (int column = 0; column < BOARD_WIDTH; column++)
             {
-                board[row][column] = 0;
+                board[row][column] = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
             }
         }
     }

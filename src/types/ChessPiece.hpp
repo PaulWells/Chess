@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "../util/TerminalColor.hpp"
 // This file specifies the types of the pieces used in Chess.
 
 // Chess pieces.
@@ -145,25 +146,25 @@ namespace ChessPieceHelpers
         switch(pieceType)
         {
             case ChessPieceType::EmptySquare:
-                pieceTypeAsString.assign("Empty Square");
+                pieceTypeAsString.assign("\t");
             break;
             case ChessPieceType::Pawn:
-                pieceTypeAsString.assign("Pawn");
+                pieceTypeAsString.assign("Pawn\t");
             break;
             case ChessPieceType::Knight:
-                pieceTypeAsString.assign("Knight");
+                pieceTypeAsString.assign("Knight\t");
             break;
             case ChessPieceType::Bishop:
-                pieceTypeAsString.assign("Bishop");
+                pieceTypeAsString.assign("Bishop\t");
             break;
             case ChessPieceType::Castle:
-                pieceTypeAsString.assign("Castle");
+                pieceTypeAsString.assign("Castle\t");
             break;
             case ChessPieceType::Queen:
-                pieceTypeAsString.assign("Queen");
+                pieceTypeAsString.assign("Queen\t");
             break;
             case ChessPieceType::King:
-                pieceTypeAsString.assign("King");
+                pieceTypeAsString.assign("King\t");
             break;
             default:
             std::cerr << "Unidentified PieceType: PieceTypeToString";
@@ -174,15 +175,20 @@ namespace ChessPieceHelpers
 
 inline std::ostream& operator<<(std::ostream& os, const ChessPiece& piece)
 {
-    std::string color = (ChessPieceHelpers::IsBlack(piece) ? "Black" : "White");
-    std::string type = (ChessPieceHelpers::PieceTypeToString(ChessPieceHelpers::GetPieceType(piece)));
-    if (ChessPieceHelpers::GetPieceType(piece) == ChessPieceType::EmptySquare)
+    uint8_t type = ChessPieceHelpers::GetPieceType(piece);
+    std::string typeAsString = (ChessPieceHelpers::PieceTypeToString(type));
+    if (type == ChessPieceType::EmptySquare)
     {
-        os << type;
+        os << TerminalColor::Brown();
+    }
+    else if (ChessPieceHelpers::IsBlack(piece))
+    {
+        os << TerminalColor::DarkBlue();
     }
     else
     {
-        os << color << " " << type;
+        os << TerminalColor::Grey();
     }
+    os << typeAsString << TerminalColor::Reset();
     return os;
 }

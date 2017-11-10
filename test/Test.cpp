@@ -1,12 +1,14 @@
 #include <iostream>
+#include "../src/util/TerminalColor.hpp"
+
+#include <memory>
 #include "Test.hpp"
-#include "TerminalColors.hpp"
 
 void Test::assert_true(bool statement, const char* message)
 {
     if (!statement)
     {
-        std::cout << TerminalColor::Red << m_name << ": " << message << TerminalColor::Reset << std::endl;
+        std::cout << TerminalColor::Red() << m_name << ": " << message << TerminalColor::Reset() << std::endl;
         m_failed = true;
     }
 }

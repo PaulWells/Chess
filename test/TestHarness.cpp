@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "TestHarness.hpp"
-#include "TerminalColors.hpp"
+#include "../src/util/TerminalColor.hpp"
 #include "Test.hpp"
 
 TestHarness::TestHarness()
@@ -35,15 +35,16 @@ void TestHarness::OnTestsComplete() const
         }
     }
 
+    std::cout << TerminalColor::Reset();
     if (numTestsPassed > 0)
     {
-        std::cout << TerminalColor::Green;
+        std::cout << TerminalColor::Green();
     }
-    std::cout << "Tests Passed: " << numTestsPassed << std::endl << TerminalColor::Reset;
+    std::cout << "Tests Passed: " << numTestsPassed << std::endl << TerminalColor::Reset();
 
     if (numTestsFailed > 0)
     {
-        std::cout << TerminalColor::Red;
+        std::cout << TerminalColor::Red();
     }
-    std::cout << "Tests Failed: " << numTestsFailed << std::endl << TerminalColor::Reset << std::endl;
+    std::cout << "Tests Failed: " << numTestsFailed << std::endl << TerminalColor::Reset() << std::endl;
 }
