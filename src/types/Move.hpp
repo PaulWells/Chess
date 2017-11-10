@@ -28,11 +28,11 @@ inline std::ostream& operator<<(std::ostream& os, const Move& move)
 
 namespace MoveHelpers
 {
-    inline Move CreateMove(ChessBoard board, Square square, Distance distance)
+    inline Move CreateMove(ChessBoard board, Square square, Vector vector)
     {
         Move move;
         move.start = square;
-        move.end = ChessBoardHelpers::GetTargetSquare(square, distance);
+        move.end = ChessBoardHelpers::GetTargetSquare(square, vector);
         move.startState = ChessBoardHelpers::PieceAt(board, square);
         move.removedPiece = ChessBoardHelpers::PieceAt(board, move.end);
         return move;

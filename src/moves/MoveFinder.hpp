@@ -20,4 +20,5 @@ public:
     std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
 private:
     std::unique_ptr<IMoveFinder> m_knightMoveFinder;
+    std::unique_ptr<IMoveFinder> m_castleMoveFinder;
 };

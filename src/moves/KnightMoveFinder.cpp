@@ -6,7 +6,7 @@
 #include "MoveFinderHelpers.hpp"
 
 static const uint8_t MAX_KNIGHT_MOVES = 8;
-static Distance knightDistances[MAX_KNIGHT_MOVES] = {
+static Vector knightVectors[MAX_KNIGHT_MOVES] = {
     {  2,  1 },
     {  2, -1 },
     {  1,  2 },
@@ -23,9 +23,9 @@ std::unique_ptr<std::vector<Move>> KnightMoveFinder::FindMoves(ChessBoard board,
     moves->reserve(MAX_KNIGHT_MOVES);
     for (int i = 0; i < MAX_KNIGHT_MOVES; i++ )
     {
-        if (MoveFinderHelpers::MoveIsValid(board, square, knightDistances[i]))
+        if (MoveFinderHelpers::MoveIsValid(board, square, knightVectors[i]))
         {
-            Move move = MoveHelpers::CreateMove(board, square, knightDistances[i]);
+            Move move = MoveHelpers::CreateMove(board, square, knightVectors[i]);
             moves->push_back(move);
         }
     }

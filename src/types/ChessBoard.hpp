@@ -61,16 +61,23 @@ inline bool operator==(const Square& a, const Square& b)
     return (a.row == b.row && a.row == b.row);
 }
 
-struct Distance
+struct Vector
 {
-    int rowDistance;
-    int columnDistance;
+    int rowVector;
+    int columnVector;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const Distance& distance)
+inline std::ostream& operator<<(std::ostream& os, const Vector& vector)
 {
-    os << "Distance: (" <<  distance.rowDistance << ", " << distance.columnDistance << ")" << std::endl;
+    os << "Vector: (" <<  vector.rowVector << ", " << vector.columnVector << ")" << std::endl;
     return os;
+}
+
+inline Vector operator*(Vector a, const uint8_t& multiplier)
+{
+    a.rowVector = a.rowVector * multiplier;
+    a.columnVector = a.columnVector * multiplier;
+    return a;
 }
 
 namespace ChessBoardHelpers
@@ -91,17 +98,17 @@ namespace ChessBoardHelpers
         return board[square.row][square.column];
     }
 
-    inline bool OnBoard(Square square, Distance distance)
+    inline bool OnBoard(Square square, Vector vector)
     {
-        int8_t endRow = square.row + distance.rowDistance;
-        int8_t endColumn = square.column + distance.columnDistance;
+        int8_t endRow = square.row + vector.rowVector;
+        int8_t endColumn = square.column + vector.columnVector;
         return  (endRow >= 0 && endRow < 8 && endColumn >= 0 && endColumn < 8);
     }
 
     // This method should only be used when we already know that the
     // target Square is on the board.  Otherwise a int8_t may be cast to a uint8_t
-    inline Square GetTargetSquare(Square square, Distance distance)
+    inline Square GetTargetSquare(Square square, Vector vector)
     {
-        return { square.row + distance.rowDistance, square.column + distance.columnDistance };
+        return { square.row + vector.rowVector, square.column + vector.columnVector };
     }
 }
