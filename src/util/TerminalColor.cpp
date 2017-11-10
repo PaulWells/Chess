@@ -13,7 +13,7 @@ TerminalColor& TerminalColor::GetInstance()
 
 TerminalColor::TerminalColor()
 {
-    m_backgroundColor = BACKGROUND_RED;
+    m_backgroundColor = BACKGROUND_BLACK;
 }
 
 void TerminalColor::SetBackgroundWhite()

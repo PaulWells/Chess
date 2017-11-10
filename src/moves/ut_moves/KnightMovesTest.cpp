@@ -8,6 +8,7 @@ void KnightMovesTest::RunTests(std::shared_ptr<Test> test)
     EmptyBoardEveryMoveTest(test);
     KnightCanNotMoveOffTheBoard(test);
     KnightCanNotMoveToSquareWithPieceOfSameColor(test);
+    KnightCanCaptureOpposingPiece(test);
 }
 
 void KnightMovesTest::EmptyBoardEveryMoveTest(std::shared_ptr<Test> test)
@@ -95,4 +96,28 @@ void KnightMovesTest::KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_p
     };
 
     test->assert_true(moves->at(0) == move, "A knight cannot move to a piece of the same type: 1");
+}
+
+void KnightMovesTest::KnightCanCaptureOpposingPiece(std::shared_ptr<Test> test)
+{
+    ChessBoard board = { 0 };
+    ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, false, false);
+    board[0][0] = whiteKnight;
+    board [1][2] = blackPawn;
+    Square knightSquare = { 0, 0 };
+    std::unique_ptr<std::vector<Move>> moves = MoveFinder::FindMoves(board, knightSquare);
+    test->assert_true(moves->size() == 2, "A knight can capture an opposing piece");
+
+    Move move = {
+        knightSquare,
+        { 2, 1 },
+        whiteKnight,
+        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+    };
+    test->assert_true(moves->at(0) == move, "A knight can capture an opposing piece: 1");
+    move.end.row = 1;
+    move.end.column = 2;
+    move.removedPiece = blackPawn;
+    test->assert_true(moves->at(1) == move, "A knight can capture an opposing piece: 2");
 }

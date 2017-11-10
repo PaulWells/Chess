@@ -59,7 +59,7 @@ std::unique_ptr<std::vector<Move>> MoveFinder::GetKnightMoveSet(ChessBoard board
     moves->reserve(MAX_KNIGHT_MOVES);
     for (int i = 0; i < MAX_KNIGHT_MOVES; i++ )
     {
-        if (ValidateKnightMove(board, square, knightDistances[i]))
+        if (KnightMoveIsValid(board, square, knightDistances[i]))
         {
             Move move = CreateKnightMove(board, square, knightDistances[i]);
             moves->push_back(move);
@@ -68,18 +68,18 @@ std::unique_ptr<std::vector<Move>> MoveFinder::GetKnightMoveSet(ChessBoard board
     return std::move(moves);
 }
 
-bool MoveFinder::ValidateKnightMove(ChessBoard board, Square square, Distance distance)
+bool MoveFinder::KnightMoveIsValid(ChessBoard board, Square square, Distance distance)
 {
-    bool validMove = ChessBoardHelpers::OnBoard(square, distance);
-    if (validMove)
+    bool isValidMove = ChessBoardHelpers::OnBoard(square, distance);
+    if (isValidMove)
     {
-        Square endSquare = ChessBoardHelpers::GetTargetSquare(square, distance);
-        ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, endSquare);
+        Square targetSquare = ChessBoardHelpers::GetTargetSquare(square, distance);
+        ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, targetSquare);
         ChessPiece movingPiece = ChessBoardHelpers::PieceAt(board, square);
-        validMove = (!ChessPieceHelpers::SameColor(movingPiece, targetPiece) ||
-                    ChessPieceHelpers::GetPieceType(targetPiece) == ChessPieceType::EmptySquare);
+        isValidMove = ((ChessPieceHelpers::GetPieceType(targetPiece) == ChessPieceType::EmptySquare) ||
+                       !ChessPieceHelpers::PiecesAreSameColor(movingPiece, targetPiece));
     }
-    return validMove;
+    return isValidMove;
 }
 
 Move MoveFinder::CreateKnightMove(ChessBoard board, Square square, Distance distance)

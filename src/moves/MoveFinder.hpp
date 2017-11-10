@@ -11,9 +11,8 @@
 // Queen: 27
 // King: 8
 
-// Allocate an array of this size for each piece instead of using vector.
-// Even if it does not make a large difference in terms of speed.  I at least
-// know what the implementation is.
+// Start by using the std::vector object.  To implement a truly data driven
+// approach all memory will have to be preallocated and a custom allocator used.
 
 class MoveFinder
 {
@@ -21,6 +20,6 @@ public:
     static std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
 private:
     static std::unique_ptr<std::vector<Move>> GetKnightMoveSet(ChessBoard board, Square square);
-    static bool ValidateKnightMove(ChessBoard board, Square square, Distance distance);
+    static bool KnightMoveIsValid(ChessBoard board, Square square, Distance distance);
     static Move CreateKnightMove(ChessBoard board, Square square, Distance distance);
 };

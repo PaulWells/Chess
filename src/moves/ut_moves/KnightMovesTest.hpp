@@ -9,4 +9,5 @@ private:
     void EmptyBoardEveryMoveTest(std::shared_ptr<Test> test);
     void KnightCanNotMoveOffTheBoard(std::shared_ptr<Test> test);
     void KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_ptr<Test> test);
+    void KnightCanCaptureOpposingPiece(std::shared_ptr<Test> test);
 };
