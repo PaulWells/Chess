@@ -1,7 +1,6 @@
 #pragma once
-#include "../types/ChessBoard.hpp"
-#include "../types/Move.hpp"
-#include <vector>
+
+#include "IMoveFinder.hpp"
 
 // The maximum number of moves for each piece is:
 // Pawn: 4
@@ -17,9 +16,8 @@
 class MoveFinder
 {
 public:
-    static std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
+    MoveFinder();
+    std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
 private:
-    static std::unique_ptr<std::vector<Move>> GetKnightMoveSet(ChessBoard board, Square square);
-    static bool KnightMoveIsValid(ChessBoard board, Square square, Distance distance);
-    static Move CreateKnightMove(ChessBoard board, Square square, Distance distance);
+    std::unique_ptr<IMoveFinder> m_knightMoveFinder;
 };

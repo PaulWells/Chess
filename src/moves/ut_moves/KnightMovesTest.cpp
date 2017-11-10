@@ -1,5 +1,8 @@
+#include <vector>
+#include "../../types/Move.hpp"
 #include "KnightMovesTest.hpp"
 #include "../MoveFinder.hpp"
+
 
 void KnightMovesTest::RunTests(std::shared_ptr<Test> test)
 {
@@ -17,7 +20,9 @@ void KnightMovesTest::EmptyBoardEveryMoveTest(std::shared_ptr<Test> test)
     ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
     board[2][2] = knight;
     Square knightSquare = { 2, 2 };
-    std::unique_ptr<std::vector<Move>> moves = MoveFinder::FindMoves(board, knightSquare);
+
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(board, knightSquare);
     test->assert_true(moves->size() == 8, "A knight with every move available has 8 moves");
     Move move = {
         knightSquare,
@@ -62,7 +67,9 @@ void KnightMovesTest::KnightCanNotMoveOffTheBoard(std::shared_ptr<Test> test)
     ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
     board[0][0] = knight;
     Square knightSquare = { 0, 0 };
-    std::unique_ptr<std::vector<Move>> moves = MoveFinder::FindMoves(board, knightSquare);
+
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(board, knightSquare);
     test->assert_true(moves->size() == 2, "A knight cannot move off the board");
 
     Move move = {
@@ -85,7 +92,9 @@ void KnightMovesTest::KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_p
     board[0][0] = blackKnight;
     board[1][2] = blackPawn;
     Square knightSquare = { 0, 0 };
-    std::unique_ptr<std::vector<Move>> moves = MoveFinder::FindMoves(board, knightSquare);
+
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(board, knightSquare);
     test->assert_true(moves->size() == 1, "A knight cannot move to a piece of the same type");
 
     Move move = {
@@ -106,7 +115,9 @@ void KnightMovesTest::KnightCanCaptureOpposingPiece(std::shared_ptr<Test> test)
     board[0][0] = whiteKnight;
     board [1][2] = blackPawn;
     Square knightSquare = { 0, 0 };
-    std::unique_ptr<std::vector<Move>> moves = MoveFinder::FindMoves(board, knightSquare);
+
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(board, knightSquare);
     test->assert_true(moves->size() == 2, "A knight can capture an opposing piece");
 
     Move move = {
