@@ -2,6 +2,7 @@
 #include "../../types/Move.hpp"
 #include "CastleMovesTest.hpp"
 #include "../MoveFinder.hpp"
+#include "MoveTestHelpers.hpp"
 
 
 void CastleMovesTest::RunTests(std::shared_ptr<Test> test)
@@ -11,18 +12,6 @@ void CastleMovesTest::RunTests(std::shared_ptr<Test> test)
     CanNotMoveOffBoardTest(test);
     CanNotMovePastFriendlyPieceTest(test);
     CanCaptureOpposingPieceTest(test);
-}
-
-static bool ContainsMoveWithSameEndPosition(std::vector<Move>* moves, Move move)
-{
-    for (int i = 0; i < moves->size(); i++)
-    {
-        if (moves->at(i).end == move.end)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 void CastleMovesTest::CanNotMoveOffBoardTest(std::shared_ptr<Test> test)
@@ -98,9 +87,9 @@ void CastleMovesTest::CanNotMovePastFriendlyPieceTest(std::shared_ptr<Test> test
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Castle can not move off board: 2");
 
     move.end.column = 3;
-    test->assert_false(ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to square occupied by a friendly piece");
+    test->assert_false(MoveTestHelpers::ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to square occupied by a friendly piece");
     move.end.column = 4;
-    test->assert_false(ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to a square on the other side of a friendly piece");
+    test->assert_false(MoveTestHelpers::ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to a square on the other side of a friendly piece");
 
 }
 
@@ -128,5 +117,5 @@ void CastleMovesTest::CanCaptureOpposingPieceTest(std::shared_ptr<Test> test)
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Castle can move to square occupied by an opposing piece");
     move.end.column = 4;
     move.removedPiece = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
-    test->assert_false(ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to a square on the other side of an opposing piece");
+    test->assert_false(MoveTestHelpers::ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to a square on the other side of an opposing piece");
 }

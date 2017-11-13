@@ -21,4 +21,5 @@ public:
 private:
     std::unique_ptr<IMoveFinder> m_knightMoveFinder;
     std::unique_ptr<IMoveFinder> m_castleMoveFinder;
+    std::unique_ptr<IMoveFinder> m_bishopMoveFinder;
 };

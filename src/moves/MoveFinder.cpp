@@ -8,12 +8,13 @@
 #include "MoveFinder.hpp"
 #include "MoveFinderHelpers.hpp"
 #include "KnightMoveFinder.hpp"
-#include "CastleMoveFinder.hpp"
+#include "SlideMoveFinder.hpp"
 
 MoveFinder::MoveFinder()
 {
     m_knightMoveFinder = std::make_unique<KnightMoveFinder>();
-    m_castleMoveFinder = std::make_unique<CastleMoveFinder>();
+    m_castleMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Straight));
+    m_bishopMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Diagonal));
 }
 
 // The square represents the piece to find moves for.
@@ -31,7 +32,7 @@ std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Squar
             moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Bishop:
-            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
+            moves = m_bishopMoveFinder->FindMoves(board, square);
         break;
         case ChessPieceType::Knight:
             moves = m_knightMoveFinder->FindMoves(board, square);

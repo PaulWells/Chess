@@ -4,6 +4,11 @@
 #include <memory>
 #include "Test.hpp"
 
+Test::Test()
+{
+    m_failed = false;
+}
+
 void Test::assert_true(bool statement, const char* message)
 {
     if (!statement)

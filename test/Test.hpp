@@ -6,6 +6,7 @@
 class Test
 {
 public:
+    Test();
     void assert_true(bool statement, const char* message);
     void assert_false(bool statement, const char* message);
     bool passed() const;
