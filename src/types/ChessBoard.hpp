@@ -58,7 +58,7 @@ struct Square
 
 inline bool operator==(const Square& a, const Square& b)
 {
-    return (a.row == b.row && a.row == b.row);
+    return (a.row == b.row && a.column == b.column);
 }
 
 struct Vector

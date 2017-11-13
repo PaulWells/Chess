@@ -23,7 +23,7 @@ namespace MoveFinderHelpers
         Square targetSquare = ChessBoardHelpers::GetTargetSquare(square, vector);
         ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, targetSquare);
         ChessPiece movingPiece = ChessBoardHelpers::PieceAt(board, square);
-        bool moveCapturesOpposingPiece = ((ChessPieceHelpers::GetPieceType(targetPiece) == ChessPieceType::EmptySquare) ||
+        bool moveCapturesOpposingPiece = ((ChessPieceHelpers::GetPieceType(targetPiece) != ChessPieceType::EmptySquare) &&
                                            !ChessPieceHelpers::PiecesAreSameColor(movingPiece, targetPiece));
         return moveCapturesOpposingPiece;
     }
