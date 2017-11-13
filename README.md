@@ -1,5 +1,5 @@
 # Chess
-Redoing chess using C++ and data driven design
+Redoing chess using C++
 
 # Todo
 Change Moves from a vector to a set

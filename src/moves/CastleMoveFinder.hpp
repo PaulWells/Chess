@@ -9,5 +9,5 @@ public:
 private:
     // Castle will have a move finder for normal moves and a move finder
     // for castling.
-    std::unique_ptr<IMoveFinder> m_straightSlideMoveFinder;
+    std::unique_ptr<IMoveFinder> m_slideMoveFinder;
 };

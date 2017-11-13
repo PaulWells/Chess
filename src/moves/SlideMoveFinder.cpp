@@ -2,24 +2,46 @@
 #include <vector>
 #include "../types/ChessBoard.hpp"
 #include "../types/Move.hpp"
-#include "StraightSlideMoveFinder.hpp"
+#include "SlideMoveFinder.hpp"
 #include "MoveFinderHelpers.hpp"
+#include "../util/FailFast.hpp"
 
-static const uint8_t NUMBER_STRAING_SLIDE_DIRECTIONS = 4;
-static Vector straightSlideDirections[NUMBER_STRAING_SLIDE_DIRECTIONS] = {
-    {  0,  1 },
-    {  1,  0 },
-    {  0, -1 },
-    { -1,  0 },
-};
+IMoveFinder* SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType slideMoveType)
+{
+    switch(slideMoveType)
+    {
+        case SlideMoveType::Straight:
+            return new SlideMoveFinder(straightSlideDirections);
+        break;
+        case SlideMoveType::Diagonal:
+            return new SlideMoveFinder(diagonalSlideDirections);
+        break;
+        default:
+            FAIL_FAST("Unexpected SlideMoveType");
+        break;
+    }
+}
 
-std::unique_ptr<std::vector<Move>> StraightSlideMoveFinder::FindMoves(ChessBoard board, Square square)
+SlideMoveFinder::SlideMoveFinder(Vector slideDirections[NUMBER_SLIDE_DIRECTIONS])
+{
+    // Todo: Use memcpy or another utiltiy method to assign this Vector.
+    m_slideDirections[0] = slideDirections[0];
+    m_slideDirections[1] = slideDirections[1];
+    m_slideDirections[2] = slideDirections[2];
+    m_slideDirections[3] = slideDirections[3];
+}
+
+SlideMoveFinder::SlideMoveFinder()
+{
+}
+
+std::unique_ptr<std::vector<Move>> SlideMoveFinder::FindMoves(ChessBoard board, Square square)
 {
     std::unique_ptr<std::vector<Move>> moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
 
-    for (int i = 0; i < NUMBER_STRAING_SLIDE_DIRECTIONS; i++ )
+    for (int i = 0; i < NUMBER_SLIDE_DIRECTIONS; i++ )
     {
-        Vector direction = straightSlideDirections[i];
+        Vector direction = m_slideDirections[i];
         uint8_t distance = 0;
         bool isValidMove = true;
         bool moveCapturesOpposingPiece = false;
