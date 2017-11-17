@@ -10,6 +10,8 @@
 #include "KnightMoveFinder.hpp"
 #include "SlideMoveFinder.hpp"
 #include "QueenMoveFinder.hpp"
+#include "PawnMoveFinder.hpp"
+#include "../util/FailFast.hpp"
 
 MoveFinder::MoveFinder()
 {
@@ -17,6 +19,7 @@ MoveFinder::MoveFinder()
     m_castleMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Straight));
     m_bishopMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Diagonal));
     m_queenMoveFinder = std::make_unique<QueenMoveFinder>();
+    m_pawnMoveFinder = std::make_unique<PawnMoveFinder>();
 }
 
 // The square represents the piece to find moves for.
@@ -28,10 +31,11 @@ std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Squar
     switch (ChessPieceHelpers::GetPieceType(piece))
     {
         case ChessPieceType::EmptySquare:
+            // An empty square has no moves.
             moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
         case ChessPieceType::Pawn:
-            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
+            moves = m_pawnMoveFinder->FindMoves(board, square);
         break;
         case ChessPieceType::Bishop:
             moves = m_bishopMoveFinder->FindMoves(board, square);
@@ -50,7 +54,7 @@ std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Squar
         break;
         default:
             moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
-            std::cerr << "MoveFinder::FindMoves switch (ChessPieceHelpers::GetPieceType(piece)) default should not be hit" << std::endl;
+            FAIL_FAST("MoveFinder::FindMoves switch (ChessPieceHelpers::GetPieceType(piece)) default should not be hit");
     }
     return moves;
 }

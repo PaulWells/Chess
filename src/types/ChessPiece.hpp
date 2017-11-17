@@ -114,6 +114,11 @@ namespace ChessPieceHelpers
         return piece | ChessPieceMask::JustMovedTwoSpaces;
     }
 
+    inline ChessPiece ClearMovedTwoSpaces(ChessPiece piece)
+    {
+        return piece & ~ChessPieceMask::JustMovedTwoSpaces;
+    }
+
     inline ChessPiece MakeChessPiece(uint8_t pieceType, bool isBlack, bool hasMoved, bool movedTwoSpaces)
     {
         ChessPiece piece = (isBlack ? pieceType | ChessPieceMask::Color : pieceType);

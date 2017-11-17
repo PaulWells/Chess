@@ -1,4 +1,6 @@
-void FAIL_FAST(std::string message)
+#pragma once
+
+inline void FAIL_FAST(std::string message)
 {
     std::cout << message;
     // Cause a crash to fail fast;

@@ -10,6 +10,6 @@ private:
     void PieceAtTest(std::shared_ptr<Test> test);
     void OnBoardTest(std::shared_ptr<Test> test);
     void SquareEqualityTest(std::shared_ptr<Test> test);
-    void GetTargetSquareTest(std::shared_ptr<Test> test);
+    void SquarePlusVectorTest(std::shared_ptr<Test> test);
 
 };

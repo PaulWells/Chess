@@ -9,7 +9,7 @@ namespace MoveFinderHelpers
         bool isValidMove = ChessBoardHelpers::OnBoard(square, vector);
         if (isValidMove)
         {
-            Square targetSquare = ChessBoardHelpers::GetTargetSquare(square, vector);
+            Square targetSquare = square + vector;
             ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, targetSquare);
             ChessPiece movingPiece = ChessBoardHelpers::PieceAt(board, square);
             isValidMove = ((ChessPieceHelpers::GetPieceType(targetPiece) == ChessPieceType::EmptySquare) ||
@@ -20,7 +20,7 @@ namespace MoveFinderHelpers
 
     inline bool MoveCapturesOpposingPiece(ChessBoard board, Square square, Vector vector)
     {
-        Square targetSquare = ChessBoardHelpers::GetTargetSquare(square, vector);
+        Square targetSquare = square + vector;
         ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, targetSquare);
         ChessPiece movingPiece = ChessBoardHelpers::PieceAt(board, square);
         bool moveCapturesOpposingPiece = ((ChessPieceHelpers::GetPieceType(targetPiece) != ChessPieceType::EmptySquare) &&

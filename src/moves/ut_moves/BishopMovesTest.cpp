@@ -16,6 +16,7 @@ void BishopMovesTest::BishopMovesDiagonallyTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
     ChessPiece whiteBishop = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, false, false, false);
+    ChessPiece whiteBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, false, true, false);
     board[2][2] = whiteBishop;
 
     Square bishopSquare = { 2, 2 };
@@ -27,20 +28,26 @@ void BishopMovesTest::BishopMovesDiagonallyTest(std::shared_ptr<Test> test)
         bishopSquare,
         { 3, 3 },
         whiteBishop,
+        whiteBishopHasMoved,
         ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        { 3, 3 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Bishop moves diagonally: 1");
-    move.end.row = 3;
-    move.end.column = 1;
+    Square endSquare = { 3, 1 };
+    move.end = endSquare;
+    move.removedPieceSquare = endSquare;
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Bishop moves diagonally: 2");
-    move.end.row = 1;
-    move.end.column = 3;
+    endSquare = { 1, 3 };
+    move.end = endSquare;
+    move.removedPieceSquare = endSquare;
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Bishop moves diagonally: 3");
-    move.end.row = 1;
-    move.end.column = 1;
+    endSquare = { 1, 1 };
+    move.end = endSquare;
+    move.removedPieceSquare = endSquare;
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Bishop moves diagonally: 4");
 
-    move.end.row = 2;
-    move.end.column = 1;
+    endSquare = { 2, 1 };
+    move.end = endSquare;
+    move.removedPieceSquare = endSquare;
     test->assert_false(MoveTestHelpers::ContainsMoveWithSameEndPosition(moves.get(), move), "Bishop does not move straight");
 }

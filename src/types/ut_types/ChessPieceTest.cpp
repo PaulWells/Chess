@@ -38,6 +38,10 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
     test->assert_true(ChessPieceHelpers::IsPawn(pawnJustMovedTwoSpaces), "pawnJustMovedTwoSpaces is a pawn");
     test->assert_true(ChessPieceHelpers::JustMovedTwoSpaces(pawnJustMovedTwoSpaces), "pawnJustMovedTwoSpaces just moved two spaces");
 
+    ChessPiece pawnNoLongerJustMovedTwoSpaces = ChessPieceHelpers::ClearMovedTwoSpaces(pawnJustMovedTwoSpaces);
+    test->assert_false(ChessPieceHelpers::JustMovedTwoSpaces(pawnNoLongerJustMovedTwoSpaces), "ClearMovedTwoSpaces test");
+
+
     test->assert_true(ChessPieceHelpers::IsKnight(whiteKnight), "whiteKnight is a knight");
     test->assert_false(ChessPieceHelpers::IsEmptySquare(whiteKnight), "whiteKnight is not a empty square");
     test->assert_false(ChessPieceHelpers::IsPawn(whiteKnight), "whiteKnight is not a pawn");
@@ -102,4 +106,6 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
     test->assert_true(ChessPieceHelpers::PiecesAreSameColor(blackKnight, blackBishopHasMoved), "blackKnight and blackBishopHasMoved are the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(blackKnight, emptySquare), "black piece and emptySquare are not the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(whiteKnight, emptySquare), "white piece and emptySquare are not the same color");
+
+
 };

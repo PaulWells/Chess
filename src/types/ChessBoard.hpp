@@ -50,6 +50,20 @@ inline std::ostream& operator<<(std::ostream& os, const ChessBoard& board)
     return os;
 }
 
+struct Vector
+{
+    int rowVector;
+    int columnVector;
+};
+
+inline Vector operator+(const Vector& a, const Vector& b)
+{
+    return {
+        a.rowVector + b.rowVector,
+        a.columnVector + b.columnVector
+    };
+}
+
 struct Square
 {
     int row;
@@ -61,11 +75,13 @@ inline bool operator==(const Square& a, const Square& b)
     return (a.row == b.row && a.column == b.column);
 }
 
-struct Vector
+inline Square operator+(const Square& square, const Vector& vector)
 {
-    int rowVector;
-    int columnVector;
-};
+    return {
+        square.row + vector.rowVector,
+        square.column + vector.columnVector
+    };
+}
 
 inline std::ostream& operator<<(std::ostream& os, const Vector& vector)
 {
@@ -103,12 +119,5 @@ namespace ChessBoardHelpers
         int8_t endRow = square.row + vector.rowVector;
         int8_t endColumn = square.column + vector.columnVector;
         return  (endRow >= 0 && endRow < 8 && endColumn >= 0 && endColumn < 8);
-    }
-
-    // This method should only be used when we already know that the
-    // target Square is on the board.  Otherwise a int8_t may be cast to a uint8_t
-    inline Square GetTargetSquare(Square square, Vector vector)
-    {
-        return { square.row + vector.rowVector, square.column + vector.columnVector };
     }
 }

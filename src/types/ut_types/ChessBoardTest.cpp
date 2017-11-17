@@ -12,7 +12,7 @@ void ChessBoardTest::RunTests(std::shared_ptr<Test> test)
     PieceAtTest(test);
     OnBoardTest(test);
     SquareEqualityTest(test);
-    GetTargetSquareTest(test);
+    SquarePlusVectorTest(test);
 }
 
 void ChessBoardTest::ClearBoardTest(std::shared_ptr<Test> test)
@@ -55,8 +55,10 @@ void ChessBoardTest::SquareEqualityTest(std::shared_ptr<Test> test)
     test->assert_false(square == square2, "Squares at different positions are not equal");
 }
 
-void ChessBoardTest::GetTargetSquareTest(std::shared_ptr<Test> test)
+void ChessBoardTest::SquarePlusVectorTest(std::shared_ptr<Test> test)
 {
-    Square square = { 2, 1 };
-    test->assert_true(ChessBoardHelpers::GetTargetSquare({ 1, 2 }, { 1, -1 }) == square, "GetTargetSquare returns the correct square");
+    Square square = { 1, 2 };
+    Vector vector = { 1, -1 };
+    Square resultSquare = { 2, 1 };
+    test->assert_true(square + vector == resultSquare, "Square and Vector addition returns the correct square");
 }

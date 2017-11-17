@@ -16,6 +16,7 @@ void QueenMovesTest::QueenMovesBothStraightAndDiagonally(std::shared_ptr<Test> t
 {
     ChessBoard board = { 0 };
     ChessPiece whiteQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, false, false);
+    ChessPiece whiteQueenHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, true, false);
     board[2][2] = whiteQueen;
 
     Square queenSquare = { 2, 2 };
@@ -27,10 +28,13 @@ void QueenMovesTest::QueenMovesBothStraightAndDiagonally(std::shared_ptr<Test> t
         queenSquare,
         { 3, 3 },
         whiteQueen,
+        whiteQueenHasMoved,
         ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        { 3, 3 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Queen moves diagonally");
-    move.end.row = 2;
-    move.end.column = 1;
+    Square endSquare = { 2, 1 };
+    move.end = endSquare;
+    move.removedPieceSquare = endSquare;
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Queen moves straight");
 }
