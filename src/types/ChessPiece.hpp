@@ -119,18 +119,47 @@ namespace ChessPieceHelpers
         return piece & ~ChessPieceMask::JustMovedTwoSpaces;
     }
 
+    inline ChessPiece ClearPieceType(ChessPiece piece)
+    {
+        return piece & ~ChessPieceMask::PieceType;
+    }
+
+    inline ChessPiece SetPieceType(ChessPiece piece, uint8_t pieceType)
+    {
+        return piece | pieceType;
+    }
+
+    inline ChessPiece SetPieceAsBlack(ChessPiece piece)
+    {
+        return piece | ChessPieceMask::Color;
+    }
+
     inline ChessPiece MakeChessPiece(uint8_t pieceType, bool isBlack, bool hasMoved, bool movedTwoSpaces)
     {
-        ChessPiece piece = (isBlack ? pieceType | ChessPieceMask::Color : pieceType);
+        ChessPiece piece = { 0 };
+        piece = SetPieceType(piece, pieceType);
+
+        if (isBlack)
+        {
+            piece = SetPieceAsBlack(piece);
+        }
+
         if (hasMoved)
         {
             piece = MarkChessPieceAsMoved(piece);
         }
+
         if (movedTwoSpaces)
         {
             piece = MarkPawnAsMovedTwoSpaces(piece);
         }
         return piece;
+    }
+
+    inline ChessPiece ChangePieceType(ChessPiece piece, uint8_t pieceType)
+    {
+        ChessPiece newPiece = ChessPieceHelpers::ClearPieceType(piece);
+        return ChessPieceHelpers::SetPieceType(newPiece, pieceType);
     }
 
     inline uint8_t GetPieceType(ChessPiece piece)

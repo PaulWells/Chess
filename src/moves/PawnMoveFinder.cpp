@@ -19,6 +19,43 @@ static bool SquareContainsOpposingPiece(ChessBoard board, Square square, ChessPi
            !ChessPieceHelpers::PiecesAreSameColor(movingChessPiece, piece);
 }
 
+static bool IsPromotionRow(int row, ChessPiece pawn)
+{
+    return ((ChessPieceHelpers::IsBlack(pawn) && row == 7) ||
+            (ChessPieceHelpers::IsWhite(pawn) && row == 0));
+}
+
+static void CreatePromotionMoves(Move move, std::vector<Move>* promotionMoves)
+{
+    Move knightPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Knight);
+    promotionMoves->push_back(knightPromotionMove);
+    Move bishopPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Bishop);
+    promotionMoves->push_back(bishopPromotionMove);
+    Move castlePromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Castle);
+    promotionMoves->push_back(castlePromotionMove);
+    Move queenPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Queen);
+    promotionMoves->push_back(queenPromotionMove);
+}
+
+// Before adding a pawn move it must be:
+// - checked to see if the pawn has reached its promotion row.
+// - changed to mark pawn as having moved
+static void CommitPawnMove(Move move, std::vector<Move>* moves)
+{
+    ChessPiece movingPawn = move.startState;
+    move.endState = ChessPieceHelpers::MarkChessPieceAsMoved(move.endState);
+    if (IsPromotionRow(move.end.row, movingPawn))
+    {
+        std::vector<Move> promotionMoves;
+        CreatePromotionMoves(move, moves);
+        moves->insert(moves->end(), promotionMoves.begin(), promotionMoves.end());
+    }
+    else
+    {
+        moves->push_back(move);
+    }
+}
+
 static void AddDoubleForwardMoveIfValid(
     ChessBoard board,
     Square startSquare,
@@ -32,7 +69,7 @@ static void AddDoubleForwardMoveIfValid(
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, moveForwardTwoVector);
         move.endState = ChessPieceHelpers::MarkPawnAsMovedTwoSpaces(move.startState);
-        moves->push_back(move);
+        CommitPawnMove(move, moves);
     }
 }
 
@@ -47,7 +84,7 @@ static void AddForwardMoveIfValid(
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, moveForwardVector);
         move.endState = ChessPieceHelpers::ClearMovedTwoSpaces(move.startState);
-        moves->push_back(move);
+        CommitPawnMove(move, moves);
     }
 }
 
@@ -63,7 +100,8 @@ static void AddAttackMoveIfValid(
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, attackVector);
         move.endState = ChessPieceHelpers::ClearMovedTwoSpaces(move.startState);
-        moves->push_back(move);
+        CommitPawnMove(move, moves);
+
     }
 }
 
@@ -86,17 +124,19 @@ static void AddEnPassantAttackMoveIfValid(
     Square startSquare,
     ChessPiece movingPiece,
     Vector sideVector,
+    Vector attackVector,
     std::vector<Move>* moves)
 {
     Square enPassantTarget = startSquare + sideVector;
     if (SquareContainsOpposingPawnThatJustDoubleJumped(board, enPassantTarget, movingPiece))
     {
-        Move move = MoveHelpers::CreateMove(board, startSquare, sideVector);
+        Move move = MoveHelpers::CreateMove(board, startSquare, attackVector);
         // CreateMove defaults to the removed piece being located where the movingPiece
         // moves to.  Override these defaults.
         move.removedPiece = ChessBoardHelpers::PieceAt(board, enPassantTarget);
         move.removedPieceSquare = enPassantTarget;
-        moves->push_back(move);
+
+        CommitPawnMove(move, moves);
     }
 }
 
@@ -114,8 +154,8 @@ static void AddAttackMovesIfValid(
 
     AddAttackMoveIfValid(board, startSquare, movingPiece, attackVector1, moves);
     AddAttackMoveIfValid(board, startSquare, movingPiece, attackVector2, moves);
-    AddEnPassantAttackMoveIfValid(board, startSquare, movingPiece, sideVector1, moves);
-    AddEnPassantAttackMoveIfValid(board, startSquare, movingPiece, sideVector2, moves);
+    AddEnPassantAttackMoveIfValid(board, startSquare, movingPiece, sideVector1, attackVector1, moves);
+    AddEnPassantAttackMoveIfValid(board, startSquare, movingPiece, sideVector2, attackVector2, moves);
 }
 
 std::unique_ptr<std::vector<Move>> PawnMoveFinder::FindMoves(ChessBoard board, Square startSquare)

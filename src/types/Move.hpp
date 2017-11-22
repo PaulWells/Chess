@@ -26,7 +26,8 @@ inline std::ostream& operator<<(std::ostream& os, const Move& move)
 {
     os << "Move:" << std::endl
        << "  " << move.startState << " takes " << move.removedPiece << std::endl
-       << "  " << "(" << move.start.row << ", " << move.start.column << ") -> (" << move.end.row << ", " << move.end.column << ")" << std::endl;
+       << "  " << "(" << move.start.row << ", " << move.start.column << ") -> (" << move.end.row << ", " << move.end.column << ")" << std::endl
+       << "  " << "endState: " << move.endState << std::endl;
     return os;
 }
 
@@ -42,5 +43,12 @@ namespace MoveHelpers
         move.removedPiece = ChessBoardHelpers::PieceAt(board, move.end);
         move.removedPieceSquare = move.end;
         return move;
+    }
+
+    inline Move CopyMoveWithPromotion(Move move, uint8_t newPieceType)
+    {
+        Move promotionMove = move;
+        promotionMove.endState = ChessPieceHelpers::ChangePieceType(move.endState, newPieceType);
+        return promotionMove;
     }
 };

@@ -107,5 +107,9 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(blackKnight, emptySquare), "black piece and emptySquare are not the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(whiteKnight, emptySquare), "white piece and emptySquare are not the same color");
 
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, true, false);
+    ChessPiece blackQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, true, true, false);
+    ChessPiece blackQueenClone = ChessPieceHelpers::ChangePieceType(blackPawn, ChessPieceType::Queen);
+    test->assert_true(blackQueen == blackQueenClone, "ChangePieceType changes type but not other properties");
 
 };
