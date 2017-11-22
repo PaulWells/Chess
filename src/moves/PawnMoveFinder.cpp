@@ -21,7 +21,7 @@ static bool SquareContainsOpposingPiece(ChessBoard board, Square square, ChessPi
 
 static bool IsPromotionRow(int row, ChessPiece pawn)
 {
-    return ((ChessPieceHelpers::IsBlack(pawn) && row == 7) ||
+    return ((ChessPieceHelpers::IsBlack(pawn) && row == BOARD_WIDTH - 1) ||
             (ChessPieceHelpers::IsWhite(pawn) && row == 0));
 }
 

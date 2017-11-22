@@ -118,6 +118,6 @@ namespace ChessBoardHelpers
     {
         int8_t endRow = square.row + vector.rowVector;
         int8_t endColumn = square.column + vector.columnVector;
-        return  (endRow >= 0 && endRow < 8 && endColumn >= 0 && endColumn < 8);
+        return  (endRow >= 0 && endRow < BOARD_WIDTH && endColumn >= 0 && endColumn < BOARD_WIDTH);
     }
 }

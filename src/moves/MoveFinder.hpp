@@ -24,4 +24,5 @@ private:
     std::unique_ptr<IMoveFinder> m_bishopMoveFinder;
     std::unique_ptr<IMoveFinder> m_queenMoveFinder;
     std::unique_ptr<IMoveFinder> m_pawnMoveFinder;
+    std::unique_ptr<IMoveFinder> m_kingMoveFinder;
 };

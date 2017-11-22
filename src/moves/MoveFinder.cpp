@@ -11,6 +11,7 @@
 #include "SlideMoveFinder.hpp"
 #include "QueenMoveFinder.hpp"
 #include "PawnMoveFinder.hpp"
+#include "KingMoveFinder.hpp"
 #include "../util/FailFast.hpp"
 
 MoveFinder::MoveFinder()
@@ -20,6 +21,7 @@ MoveFinder::MoveFinder()
     m_bishopMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Diagonal));
     m_queenMoveFinder = std::make_unique<QueenMoveFinder>();
     m_pawnMoveFinder = std::make_unique<PawnMoveFinder>();
+    m_kingMoveFinder = std::make_unique<KingMoveFinder>();
 }
 
 // The square represents the piece to find moves for.
@@ -50,7 +52,7 @@ std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Squar
             moves = m_queenMoveFinder->FindMoves(board, square);
         break;
         case ChessPieceType::King:
-            moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
+            moves = m_kingMoveFinder->FindMoves(board, square);
         break;
         default:
             moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
