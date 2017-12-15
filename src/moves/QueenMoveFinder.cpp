@@ -18,3 +18,8 @@ std::unique_ptr<std::vector<Move>> QueenMoveFinder::FindMoves(ChessBoard board, 
     moves->insert(moves->end(), diagonalMoves->begin(), diagonalMoves->end());
     return std::move(moves);
 }
+
+ChessPieceType QueenMoveFinder::GetPieceType()
+{
+    return ChessPieceTypes::Queen;
+}

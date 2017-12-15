@@ -15,7 +15,7 @@ void KingMovesTest::RunTests(std::shared_ptr<Test> test)
 void KingMovesTest::KingCanOnlyMoveOneSquare(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteKingHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::King, false, true, false);
+    ChessPiece whiteKingHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::King, false, true, false);
     board[0][0] = whiteKingHasMoved;
 
     Square kingSquare = { 0, 0 };
@@ -29,7 +29,7 @@ void KingMovesTest::KingCanOnlyMoveOneSquare(std::shared_ptr<Test> test)
         { 0, 1 },
         whiteKingHasMoved,
         whiteKingHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 0, 1 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "King moves straight: 1");

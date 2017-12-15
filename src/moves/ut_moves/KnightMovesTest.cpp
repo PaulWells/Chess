@@ -17,8 +17,8 @@ void KnightMovesTest::RunTests(std::shared_ptr<Test> test)
 void KnightMovesTest::EmptyBoardEveryMoveTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
-    ChessPiece knightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, true, false);
+    ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, false, false);
+    ChessPiece knightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, true, false);
     board[2][2] = knight;
     Square knightSquare = { 2, 2 };
 
@@ -30,7 +30,7 @@ void KnightMovesTest::EmptyBoardEveryMoveTest(std::shared_ptr<Test> test)
         { 4, 3 },
         knight,
         knightHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 4, 3 }
     };
     test->assert_true(moves->at(0) == move, "A knight with every move available has 8 moves: 1");
@@ -74,8 +74,8 @@ void KnightMovesTest::EmptyBoardEveryMoveTest(std::shared_ptr<Test> test)
 void KnightMovesTest::KnightCanNotMoveOffTheBoard(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
-    ChessPiece knightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, true, false);
+    ChessPiece knight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, false, false);
+    ChessPiece knightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, true, false);
     board[0][0] = knight;
     Square knightSquare = { 0, 0 };
 
@@ -88,7 +88,7 @@ void KnightMovesTest::KnightCanNotMoveOffTheBoard(std::shared_ptr<Test> test)
         { 2, 1 },
         knight,
         knightHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 2, 1}
     };
     test->assert_true(moves->at(0) == move, "A knight cannot move off the board: 1");
@@ -101,9 +101,9 @@ void KnightMovesTest::KnightCanNotMoveOffTheBoard(std::shared_ptr<Test> test)
 void KnightMovesTest::KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece blackKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, true, false, false);
-    ChessPiece blackKnightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, true, true, false);
-    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, false, false);
+    ChessPiece blackKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, true, false, false);
+    ChessPiece blackKnightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, true, true, false);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, true, false, false);
     board[0][0] = blackKnight;
     board[1][2] = blackPawn;
     Square knightSquare = { 0, 0 };
@@ -117,7 +117,7 @@ void KnightMovesTest::KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_p
         { 2, 1 },
         blackKnight,
         blackKnightHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 2, 1 }
     };
 
@@ -127,9 +127,9 @@ void KnightMovesTest::KnightCanNotMoveToSquareWithPieceOfSameColor(std::shared_p
 void KnightMovesTest::KnightCanCaptureOpposingPiece(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
-    ChessPiece whiteKnightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, true, false);
-    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, false, false);
+    ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, false, false);
+    ChessPiece whiteKnightHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, true, false);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, true, false, false);
     board[0][0] = whiteKnight;
     board [1][2] = blackPawn;
     Square knightSquare = { 0, 0 };
@@ -143,7 +143,7 @@ void KnightMovesTest::KnightCanCaptureOpposingPiece(std::shared_ptr<Test> test)
         { 2, 1 },
         whiteKnight,
         whiteKnightHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 2, 1 }
     };
     test->assert_true(moves->at(0) == move, "A knight can capture an opposing piece: 1");

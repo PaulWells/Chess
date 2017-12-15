@@ -10,6 +10,7 @@ void ChessBoardTest::RunTests(std::shared_ptr<Test> test)
 
     ClearBoardTest(test);
     PieceAtTest(test);
+    SetPieceAtTest(test);
     OnBoardTest(test);
     SquareEqualityTest(test);
     SquarePlusVectorTest(test);
@@ -18,18 +19,27 @@ void ChessBoardTest::RunTests(std::shared_ptr<Test> test)
 void ChessBoardTest::ClearBoardTest(std::shared_ptr<Test> test)
 {
     ChessBoard board;
-    board[0][0] = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
+    board[0][0] = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, false);
     ChessBoardHelpers::ClearBoard(board);
-    test->assert_true(board[0][0] == ChessPieceType::EmptySquare, "Clearing the board clears the board");
+    test->assert_true(board[0][0] == ChessPieceTypes::EmptySquare, "Clearing the board clears the board");
 }
 
 void ChessBoardTest::PieceAtTest(std::shared_ptr<Test> test)
 {
     ChessBoard board;
-    ChessPiece bishop = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, true, false, false);
+    ChessPiece bishop = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, true, false, false);
     board[1][1] = bishop;
     Square square = { 1, 1 };
     test->assert_true(ChessBoardHelpers::PieceAt(board, square) == bishop, "PieceAt returns the correct piece");
+}
+
+void ChessBoardTest::SetPieceAtTest(std::shared_ptr<Test> test)
+{
+    ChessBoard board;
+    ChessPiece bishop = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, true, false, false);
+    Square square = { 1, 1 };
+    ChessBoardHelpers::SetPieceAt(board, square, bishop);
+    test->assert_true(board[1][1] == bishop, "SetPieceAt puts piece on correct Square");
 }
 
 void ChessBoardTest::OnBoardTest(std::shared_ptr<Test> test)

@@ -15,8 +15,8 @@ void BishopMovesTest::RunTests(std::shared_ptr<Test> test)
 void BishopMovesTest::BishopMovesDiagonallyTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteBishop = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, false, false, false);
-    ChessPiece whiteBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, false, true, false);
+    ChessPiece whiteBishop = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, false, false, false);
+    ChessPiece whiteBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, false, true, false);
     board[2][2] = whiteBishop;
 
     Square bishopSquare = { 2, 2 };
@@ -29,7 +29,7 @@ void BishopMovesTest::BishopMovesDiagonallyTest(std::shared_ptr<Test> test)
         { 3, 3 },
         whiteBishop,
         whiteBishopHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 3, 3 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Bishop moves diagonally: 1");

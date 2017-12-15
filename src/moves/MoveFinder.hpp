@@ -19,10 +19,10 @@ public:
     MoveFinder();
     std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
 private:
-    std::unique_ptr<IMoveFinder> m_knightMoveFinder;
-    std::unique_ptr<IMoveFinder> m_castleMoveFinder;
-    std::unique_ptr<IMoveFinder> m_bishopMoveFinder;
-    std::unique_ptr<IMoveFinder> m_queenMoveFinder;
-    std::unique_ptr<IMoveFinder> m_pawnMoveFinder;
-    std::unique_ptr<IMoveFinder> m_kingMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_knightMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_castleMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_bishopMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_queenMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_pawnMoveFinder;
+    std::unique_ptr<ITypedMoveFinder> m_kingMoveFinder;
 };

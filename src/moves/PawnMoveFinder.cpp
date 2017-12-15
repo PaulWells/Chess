@@ -9,13 +9,13 @@
 static bool SquareIsEmpty(ChessBoard board, Square square)
 {
     ChessPiece piece = ChessBoardHelpers::PieceAt(board, square);
-    return (ChessPieceHelpers::GetPieceType(piece) == ChessPieceType::EmptySquare);
+    return (ChessPieceHelpers::GetPieceType(piece) == ChessPieceTypes::EmptySquare);
 }
 
 static bool SquareContainsOpposingPiece(ChessBoard board, Square square, ChessPiece movingChessPiece)
 {
     ChessPiece piece = ChessBoardHelpers::PieceAt(board, square);
-    return !(ChessPieceHelpers::GetPieceType(piece) == ChessPieceType::EmptySquare) &&
+    return !(ChessPieceHelpers::GetPieceType(piece) == ChessPieceTypes::EmptySquare) &&
            !ChessPieceHelpers::PiecesAreSameColor(movingChessPiece, piece);
 }
 
@@ -27,13 +27,13 @@ static bool IsPromotionRow(int row, ChessPiece pawn)
 
 static void CreatePromotionMoves(Move move, std::vector<Move>* promotionMoves)
 {
-    Move knightPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Knight);
+    Move knightPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceTypes::Knight);
     promotionMoves->push_back(knightPromotionMove);
-    Move bishopPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Bishop);
+    Move bishopPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceTypes::Bishop);
     promotionMoves->push_back(bishopPromotionMove);
-    Move castlePromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Castle);
+    Move castlePromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceTypes::Castle);
     promotionMoves->push_back(castlePromotionMove);
-    Move queenPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceType::Queen);
+    Move queenPromotionMove = MoveHelpers::CopyMoveWithPromotion(move, ChessPieceTypes::Queen);
     promotionMoves->push_back(queenPromotionMove);
 }
 
@@ -178,4 +178,9 @@ std::unique_ptr<std::vector<Move>> PawnMoveFinder::FindMoves(ChessBoard board, S
     AddAttackMovesIfValid(board, startSquare, pawn, moveForwardVector, moves.get());
 
     return std::move(moves);
+}
+
+ChessPieceType PawnMoveFinder::GetPieceType()
+{
+    return ChessPieceTypes::Pawn;
 }

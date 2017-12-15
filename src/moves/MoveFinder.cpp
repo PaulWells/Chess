@@ -8,17 +8,18 @@
 #include "MoveFinder.hpp"
 #include "MoveFinderHelpers.hpp"
 #include "KnightMoveFinder.hpp"
-#include "SlideMoveFinder.hpp"
 #include "QueenMoveFinder.hpp"
 #include "PawnMoveFinder.hpp"
 #include "KingMoveFinder.hpp"
+#include "CastleMoveFinder.hpp"
+#include "BishopMoveFinder.hpp"
 #include "../util/FailFast.hpp"
 
 MoveFinder::MoveFinder()
 {
     m_knightMoveFinder = std::make_unique<KnightMoveFinder>();
-    m_castleMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Straight));
-    m_bishopMoveFinder = std::unique_ptr<IMoveFinder>(SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Diagonal));
+    m_castleMoveFinder = std::unique_ptr<CastleMoveFinder>();
+    m_bishopMoveFinder = std::unique_ptr<BishopMoveFinder>();
     m_queenMoveFinder = std::make_unique<QueenMoveFinder>();
     m_pawnMoveFinder = std::make_unique<PawnMoveFinder>();
     m_kingMoveFinder = std::make_unique<KingMoveFinder>();
@@ -32,26 +33,26 @@ std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Squar
 
     switch (ChessPieceHelpers::GetPieceType(piece))
     {
-        case ChessPieceType::EmptySquare:
+        case ChessPieceTypes::EmptySquare:
             // An empty square has no moves.
             moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
         break;
-        case ChessPieceType::Pawn:
+        case ChessPieceTypes::Pawn:
             moves = m_pawnMoveFinder->FindMoves(board, square);
         break;
-        case ChessPieceType::Bishop:
+        case ChessPieceTypes::Bishop:
             moves = m_bishopMoveFinder->FindMoves(board, square);
         break;
-        case ChessPieceType::Knight:
+        case ChessPieceTypes::Knight:
             moves = m_knightMoveFinder->FindMoves(board, square);
         break;
-        case ChessPieceType::Castle:
+        case ChessPieceTypes::Castle:
             moves = m_castleMoveFinder->FindMoves(board, square);
         break;
-        case ChessPieceType::Queen:
+        case ChessPieceTypes::Queen:
             moves = m_queenMoveFinder->FindMoves(board, square);
         break;
-        case ChessPieceType::King:
+        case ChessPieceTypes::King:
             moves = m_kingMoveFinder->FindMoves(board, square);
         break;
         default:

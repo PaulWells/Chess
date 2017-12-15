@@ -3,6 +3,7 @@
 # Set PROJECT_ROOT which is the top folder of the project.
 # Assumes the project name is "Chess"
 currentDirectory=$(pwd);
+echo $currentDirectory;
 index=$(echo $(pwd) | awk '{print index($0, "Chess")}');
 index=$(expr $index + 5);
 PROJECT_ROOT=$(echo $(pwd)| cut -c 1-$index);

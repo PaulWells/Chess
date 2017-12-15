@@ -31,3 +31,8 @@ std::unique_ptr<std::vector<Move>> KnightMoveFinder::FindMoves(ChessBoard board,
     }
     return std::move(moves);
 }
+
+ChessPieceType KnightMoveFinder::GetPieceType()
+{
+    return ChessPieceTypes::Knight;
+}

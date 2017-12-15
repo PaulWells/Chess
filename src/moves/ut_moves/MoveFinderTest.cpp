@@ -8,7 +8,7 @@ void MoveFinderTest::RunTests(std::shared_ptr<Test> test)
     test->set_name("MoveFinderTest");
 
     ChessBoard board = { 0 };
-    board[0][0] = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
+    board[0][0] = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, false);
     Square emptySquare = { 0, 0 };
 
     std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();

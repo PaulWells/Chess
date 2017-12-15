@@ -7,16 +7,16 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
 {
     test->set_name("ChessPieceTest");
 
-    const ChessPiece emptySquare = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
-    const ChessPiece pawnNotJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
-    const ChessPiece pawnJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, true);
-    const ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, false, false, false);
-    const ChessPiece blackKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Knight, true, false, false);
-    const ChessPiece blackBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Bishop, true, true, false);
-    const ChessPiece castleHasNotMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, false, false);
-    const ChessPiece castleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, true, false);
-    const ChessPiece queen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, false, false);
-    const ChessPiece king = ChessPieceHelpers::MakeChessPiece(ChessPieceType::King, false, false, false);
+    const ChessPiece emptySquare = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false);
+    const ChessPiece pawnNotJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, false);
+    const ChessPiece pawnJustMovedTwoSpaces = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, true);
+    const ChessPiece whiteKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, false, false, false);
+    const ChessPiece blackKnight = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Knight, true, false, false);
+    const ChessPiece blackBishopHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, true, true, false);
+    const ChessPiece castleHasNotMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, false, false);
+    const ChessPiece castleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, true, false);
+    const ChessPiece queen = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Queen, false, false, false);
+    const ChessPiece king = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::King, false, false, false);
 
     test->assert_true(ChessPieceHelpers::IsEmptySquare(emptySquare), "emptySquare is an EmptySquare");
     test->assert_false(ChessPieceHelpers::IsPawn(emptySquare), "emptySquare is not a pawn");
@@ -98,18 +98,18 @@ void ChessPieceTest::RunTests(std::shared_ptr<Test> test)
     test->assert_false(ChessPieceHelpers::IsQueen(king), "king is not a queen");
     test->assert_true(ChessPieceHelpers::IsKing(king), "king is a king");
 
-    test->assert_true(ChessPieceHelpers::GetPieceType(king) == ChessPieceType::King, "GetPieceType returns the correct type");
+    test->assert_true(ChessPieceHelpers::GetPieceType(king) == ChessPieceTypes::King, "GetPieceType returns the correct type");
 
-    ChessPiece whiteQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, false, false, false);
+    ChessPiece whiteQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Queen, false, false, false);
     test->assert_true(ChessPieceHelpers::PiecesAreSameColor(whiteKnight, whiteQueen), "whiteKnight and whiteQueen are the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(whiteKnight, blackKnight), "whiteKnight and blackKnight are not the same color");
     test->assert_true(ChessPieceHelpers::PiecesAreSameColor(blackKnight, blackBishopHasMoved), "blackKnight and blackBishopHasMoved are the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(blackKnight, emptySquare), "black piece and emptySquare are not the same color");
     test->assert_false(ChessPieceHelpers::PiecesAreSameColor(whiteKnight, emptySquare), "white piece and emptySquare are not the same color");
 
-    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, true, false);
-    ChessPiece blackQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Queen, true, true, false);
-    ChessPiece blackQueenClone = ChessPieceHelpers::ChangePieceType(blackPawn, ChessPieceType::Queen);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, true, true, false);
+    ChessPiece blackQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Queen, true, true, false);
+    ChessPiece blackQueenClone = ChessPieceHelpers::ChangePieceType(blackPawn, ChessPieceTypes::Queen);
     test->assert_true(blackQueen == blackQueenClone, "ChangePieceType changes type but not other properties");
 
 };

@@ -11,5 +11,6 @@ private:
     void OnBoardTest(std::shared_ptr<Test> test);
     void SquareEqualityTest(std::shared_ptr<Test> test);
     void SquarePlusVectorTest(std::shared_ptr<Test> test);
+    void SetPieceAtTest(std::shared_ptr<Test> test);
 
 };

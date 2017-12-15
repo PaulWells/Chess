@@ -9,16 +9,17 @@
 // remaining bits are one-hot encoded with state information such
 // as the color of a piece and whether that piece has already moved.
 typedef uint8_t ChessPiece;
+typedef uint8_t ChessPieceType;
 
-namespace ChessPieceType
+namespace ChessPieceTypes
 {
-    const uint8_t EmptySquare = 0x00;
-    const uint8_t Pawn = 0x01;
-    const uint8_t Knight = 0x02;
-    const uint8_t Bishop = 0x03;
-    const uint8_t Castle = 0x04;
-    const uint8_t Queen = 0x05;
-    const uint8_t King = 0x06;
+    const ChessPieceType EmptySquare = 0x00;
+    const ChessPieceType Pawn = 0x01;
+    const ChessPieceType Knight = 0x02;
+    const ChessPieceType Bishop = 0x03;
+    const ChessPieceType Castle = 0x04;
+    const ChessPieceType Queen = 0x05;
+    const ChessPieceType King = 0x06;
 };
 
 namespace ChessPieceMask
@@ -41,37 +42,37 @@ namespace ChessPieceHelpers
 {
     inline bool IsEmptySquare(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::EmptySquare);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::EmptySquare);
     }
 
     inline bool IsPawn(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::Pawn);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::Pawn);
     }
 
     inline bool IsKnight(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::Knight);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::Knight);
     }
 
     inline bool IsBishop(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::Bishop);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::Bishop);
     }
 
     inline bool IsCastle(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::Castle);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::Castle);
     }
 
     inline bool IsQueen(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::Queen);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::Queen);
     }
 
     inline bool IsKing(ChessPiece chessPiece)
     {
-        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceType::King);
+        return ((chessPiece & ChessPieceMask::PieceType) == ChessPieceTypes::King);
     }
 
     static bool CompareAgainstMask(ChessPiece chessPiece, uint8_t mask)
@@ -170,8 +171,8 @@ namespace ChessPieceHelpers
     inline bool PiecesAreSameColor(ChessPiece piece1, ChessPiece piece2)
     {
         return (IsBlack(piece1) == IsBlack(piece2) &&
-               GetPieceType(piece1) != ChessPieceType::EmptySquare &&
-               GetPieceType(piece2) != ChessPieceType::EmptySquare);
+               GetPieceType(piece1) != ChessPieceTypes::EmptySquare &&
+               GetPieceType(piece2) != ChessPieceTypes::EmptySquare);
     }
 
     inline std::string PieceTypeToString(uint8_t pieceType)
@@ -179,25 +180,25 @@ namespace ChessPieceHelpers
         std::string pieceTypeAsString;
         switch(pieceType)
         {
-            case ChessPieceType::EmptySquare:
+            case ChessPieceTypes::EmptySquare:
                 pieceTypeAsString.assign("\t");
             break;
-            case ChessPieceType::Pawn:
+            case ChessPieceTypes::Pawn:
                 pieceTypeAsString.assign("Pawn\t");
             break;
-            case ChessPieceType::Knight:
+            case ChessPieceTypes::Knight:
                 pieceTypeAsString.assign("Knight\t");
             break;
-            case ChessPieceType::Bishop:
+            case ChessPieceTypes::Bishop:
                 pieceTypeAsString.assign("Bishop\t");
             break;
-            case ChessPieceType::Castle:
+            case ChessPieceTypes::Castle:
                 pieceTypeAsString.assign("Castle\t");
             break;
-            case ChessPieceType::Queen:
+            case ChessPieceTypes::Queen:
                 pieceTypeAsString.assign("Queen\t");
             break;
-            case ChessPieceType::King:
+            case ChessPieceTypes::King:
                 pieceTypeAsString.assign("King\t");
             break;
             default:
@@ -211,7 +212,7 @@ inline std::ostream& operator<<(std::ostream& os, const ChessPiece& piece)
 {
     uint8_t type = ChessPieceHelpers::GetPieceType(piece);
     std::string typeAsString = (ChessPieceHelpers::PieceTypeToString(type));
-    if (type == ChessPieceType::EmptySquare)
+    if (type == ChessPieceTypes::EmptySquare)
     {
         os << TerminalColor::Brown();
     }

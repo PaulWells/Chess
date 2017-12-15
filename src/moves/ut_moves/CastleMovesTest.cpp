@@ -17,8 +17,8 @@ void CastleMovesTest::RunTests(std::shared_ptr<Test> test)
 void CastleMovesTest::CanNotMoveOffBoardTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, false, false);
-    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, true, false);
+    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, false, false);
+    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, true, false);
     board[2][2] = whiteCastle;
 
     Square castleSquare = { 2, 2 };
@@ -31,7 +31,7 @@ void CastleMovesTest::CanNotMoveOffBoardTest(std::shared_ptr<Test> test)
         { 0, 2 },
         whiteCastle,
         whiteCastleHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 0, 2 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Castle can not move off board: 1");
@@ -82,12 +82,12 @@ void CastleMovesTest::CanNotMoveOffBoardTest(std::shared_ptr<Test> test)
 void CastleMovesTest::CanNotMovePastFriendlyPieceTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, false, false);
-    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, true, false);
+    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, false, false);
+    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, true, false);
     board[0][0] = whiteCastle;
     Square castleSquare = { 0, 0 };
 
-    ChessPiece whitePawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, false, false, false);
+    ChessPiece whitePawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, false);
     board[0][3] = whitePawn;
 
     std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
@@ -98,7 +98,7 @@ void CastleMovesTest::CanNotMovePastFriendlyPieceTest(std::shared_ptr<Test> test
         { 0, 1 },
         whiteCastle,
         whiteCastleHasMoved,
-        ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false),
+        ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false),
         { 0, 1 }
     };
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Castle can not move off board: 1");
@@ -119,12 +119,12 @@ void CastleMovesTest::CanNotMovePastFriendlyPieceTest(std::shared_ptr<Test> test
 void CastleMovesTest::CanCaptureOpposingPieceTest(std::shared_ptr<Test> test)
 {
     ChessBoard board = { 0 };
-    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, false, false);
-    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Castle, false, true, false);
+    ChessPiece whiteCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, false, false);
+    ChessPiece whiteCastleHasMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, false, true, false);
     board[0][0] = whiteCastle;
     Square castleSquare = { 0, 0 };
 
-    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceType::Pawn, true, false, false);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, true, false, false);
     board[0][3] = blackPawn;
 
     std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
@@ -142,6 +142,6 @@ void CastleMovesTest::CanCaptureOpposingPieceTest(std::shared_ptr<Test> test)
 
     test->assert_true(std::find(moves->begin(), moves->end(), move) != moves->end(), "Castle can move to square occupied by an opposing piece");
     move.end.column = 4;
-    move.removedPiece = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
+    move.removedPiece = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false);
     test->assert_false(MoveTestHelpers::ContainsMoveWithSameEndPosition(moves.get(), move), "Castle can not move to a square on the other side of an opposing piece");
 }

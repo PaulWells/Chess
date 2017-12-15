@@ -4,6 +4,7 @@ Redoing chess using C++
 # Todo
 Change Moves from a vector to a set
 ChessBoard should always be passed by reference
+Only one of each type of MoveFinder should be used.
 
 Add MoveApplicator
  - Applies / Undoes Moves
@@ -17,3 +18,5 @@ Add EnPassantTracker
 
 Add GameState
  - holds board and EnPassantTracker
+
+ Add class for determining if a square is in check or not

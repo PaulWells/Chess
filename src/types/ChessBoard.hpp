@@ -104,7 +104,7 @@ namespace ChessBoardHelpers
         {
             for (int column = 0; column < BOARD_WIDTH; column++)
             {
-                board[row][column] = ChessPieceHelpers::MakeChessPiece(ChessPieceType::EmptySquare, false, false, false);
+                board[row][column] = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::EmptySquare, false, false, false);
             }
         }
     }
@@ -112,6 +112,11 @@ namespace ChessBoardHelpers
     inline ChessPiece PieceAt(ChessBoard board, Square square)
     {
         return board[square.row][square.column];
+    }
+
+    inline void SetPieceAt(ChessBoard board, Square square, ChessPiece piece)
+    {
+        board[square.row][square.column] = piece;
     }
 
     inline bool OnBoard(Square square, Vector vector)
