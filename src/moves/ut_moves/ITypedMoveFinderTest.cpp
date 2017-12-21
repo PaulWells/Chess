@@ -21,8 +21,8 @@ void ITypedMoveFinderTest::RunTests(std::shared_ptr<Test> test)
 void ITypedMoveFinderTest::ITypedFinderReturnsCorrectType(std::shared_ptr<Test> test)
 {
     std::unique_ptr<ITypedMoveFinder> knightMoveFinder = std::make_unique<KnightMoveFinder>();
-    std::unique_ptr<ITypedMoveFinder> castleMoveFinder = std::unique_ptr<CastleMoveFinder>();
-    std::unique_ptr<ITypedMoveFinder> bishopMoveFinder = std::unique_ptr<BishopMoveFinder>();
+    std::unique_ptr<ITypedMoveFinder> castleMoveFinder = std::make_unique<CastleMoveFinder>();
+    std::unique_ptr<ITypedMoveFinder> bishopMoveFinder = std::make_unique<BishopMoveFinder>();
     std::unique_ptr<ITypedMoveFinder> queenMoveFinder = std::make_unique<QueenMoveFinder>();
     std::unique_ptr<ITypedMoveFinder> pawnMoveFinder = std::make_unique<PawnMoveFinder>();
     std::unique_ptr<ITypedMoveFinder> kingMoveFinder = std::make_unique<KingMoveFinder>();

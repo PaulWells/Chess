@@ -4,7 +4,6 @@
 #include "../MoveFinder.hpp"
 #include "MoveTestHelpers.hpp"
 
-
 void BishopMovesTest::RunTests(std::shared_ptr<Test> test)
 {
     test->set_name("BishopMovesTest");

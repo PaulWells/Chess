@@ -18,8 +18,8 @@
 MoveFinder::MoveFinder()
 {
     m_knightMoveFinder = std::make_unique<KnightMoveFinder>();
-    m_castleMoveFinder = std::unique_ptr<CastleMoveFinder>();
-    m_bishopMoveFinder = std::unique_ptr<BishopMoveFinder>();
+    m_castleMoveFinder = std::make_unique<CastleMoveFinder>();
+    m_bishopMoveFinder = std::make_unique<BishopMoveFinder>();
     m_queenMoveFinder = std::make_unique<QueenMoveFinder>();
     m_pawnMoveFinder = std::make_unique<PawnMoveFinder>();
     m_kingMoveFinder = std::make_unique<KingMoveFinder>();
