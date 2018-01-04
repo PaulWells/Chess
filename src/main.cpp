@@ -1,6 +1,8 @@
 #include <iostream>
+#include "game/GameManager.hpp"
 
 int main()
 {
-  std::cout << "Hello C++\n";
+    GameManager gameManager;
+    gameManager.StartGame();
 }

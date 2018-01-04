@@ -5,6 +5,7 @@ Redoing chess using C++
 Change Moves from a vector to a set
 ChessBoard should always be passed by reference
 Only one of each type of MoveFinder should be used.
+Remove double jump property of chess piece
 
 Add MoveApplicator
  - Applies / Undoes Moves
