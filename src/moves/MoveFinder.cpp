@@ -25,6 +25,27 @@ MoveFinder::MoveFinder()
     m_kingMoveFinder = std::make_unique<KingMoveFinder>();
 }
 
+std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, bool forBlack)
+{
+    std::unique_ptr<std::vector<Move>> moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
+    for (int column = 0; column < BOARD_WIDTH; column++)
+    {
+        for (int row = 0; row < BOARD_WIDTH; row++)
+        {
+            Square square = { row, column };
+            ChessPiece piece = ChessBoardHelpers::PieceAt(board, square);
+            bool pieceIsBlack = ChessPieceHelpers::IsBlack(piece);
+            if (pieceIsBlack == forBlack)
+            {
+                // TODO: filter moves that put king in check.
+                std::unique_ptr<std::vector<Move>> newMoves = FindMoves(board, square);
+                moves->insert(moves->end(), newMoves->begin(), newMoves->end());
+            }
+        }
+    }
+    return moves;
+}
+
 // The square represents the piece to find moves for.
 std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, Square square)
 {

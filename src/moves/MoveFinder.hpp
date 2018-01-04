@@ -18,6 +18,7 @@ class MoveFinder
 public:
     MoveFinder();
     std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, Square square);
+    std::unique_ptr<std::vector<Move>> FindMoves(ChessBoard board, bool forBlack);
 private:
     std::unique_ptr<ITypedMoveFinder> m_knightMoveFinder;
     std::unique_ptr<ITypedMoveFinder> m_castleMoveFinder;
