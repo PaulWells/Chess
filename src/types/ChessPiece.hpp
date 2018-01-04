@@ -181,10 +181,10 @@ namespace ChessPieceHelpers
         switch(pieceType)
         {
             case ChessPieceTypes::EmptySquare:
-                pieceTypeAsString.assign("\t");
+                pieceTypeAsString.assign("      \t");
             break;
             case ChessPieceTypes::Pawn:
-                pieceTypeAsString.assign("Pawn\t");
+                pieceTypeAsString.assign("Pawn  \t");
             break;
             case ChessPieceTypes::Knight:
                 pieceTypeAsString.assign("Knight\t");

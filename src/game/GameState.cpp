@@ -2,8 +2,8 @@
 #include "../types/ChessBoard.hpp"
 #include "../types/ChessPiece.hpp"
 
-const int WHITE_START_ROW = 0;
-const int BLACK_START_ROW = BOARD_WIDTH - 1;
+const int WHITE_START_ROW = BOARD_WIDTH - 1;
+const int BLACK_START_ROW = 0;
 
 GameState::GameState()
 {
@@ -18,8 +18,8 @@ static void AddKings(ChessBoard& board)
     ChessPiece whiteKing = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::King, false, false, false);
     ChessPiece blackKing = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::King, true, false, false);
 
-    board[WHITE_START_ROW][3] = whiteKing;
-    board[BLACK_START_ROW][4] = blackKing;
+    board[WHITE_START_ROW][4] = whiteKing;
+    board[BLACK_START_ROW][3] = blackKing;
 }
 
 static void AddQueens(ChessBoard& board)
@@ -27,8 +27,8 @@ static void AddQueens(ChessBoard& board)
     ChessPiece whiteQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Queen, false, false, false);
     ChessPiece blackQueen = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Queen, true, false, false);
 
-    board[WHITE_START_ROW][4] = whiteQueen;
-    board[BLACK_START_ROW][3] = blackQueen;
+    board[WHITE_START_ROW][3] = whiteQueen;
+    board[BLACK_START_ROW][4] = blackQueen;
 }
 
 static void AddBishops(ChessBoard& board)
@@ -71,8 +71,8 @@ static void AddPawns(ChessBoard& board)
 
     for (int column = 0; column < BOARD_WIDTH; column++)
     {
-        board[WHITE_START_ROW + 1][column] = whitePawn;
-        board[BLACK_START_ROW - 1][column] = blackPawn;
+        board[WHITE_START_ROW - 1][column] = whitePawn;
+        board[BLACK_START_ROW + 1][column] = blackPawn;
     }
 }
 
@@ -89,7 +89,7 @@ static void ClearMemory(ChessBoard& board)
 
 void GameState::InitializeChessBoard()
 {
-    ClearMemory(m_board);
+    ChessBoardHelpers::ClearBoard(m_board);
     AddKings(m_board);
     AddQueens(m_board);
     AddBishops(m_board);
