@@ -10,13 +10,14 @@
 #include "../src/moves/ut_moves/PawnMovesTest.hpp"
 #include "../src/moves/ut_moves/KingMovesTest.hpp"
 #include "../src/moves/ut_moves/ITypedMoveFinderTest.hpp"
+#include "../src/moves/ut_moves/SquareUnderAttackDeterminerTest.hpp"
 #include "../src/types/ChessBoard.hpp"
 #include "TestHarness.hpp"
 
 int main()
 {
-  std::unique_ptr<ChessPieceTest> chessPieceTest(new ChessPieceTest());
   std::unique_ptr<TestHarness> testHarness(new TestHarness());
+  std::unique_ptr<ChessPieceTest> chessPieceTest(new ChessPieceTest());
   chessPieceTest->RunTests(testHarness->NewTest());
 
   std::unique_ptr<ChessBoardTest> chessBoardTest(new ChessBoardTest());
@@ -45,6 +46,9 @@ int main()
 
   std::unique_ptr<ITypedMoveFinderTest> itypedMoveFinderTest(new ITypedMoveFinderTest());
   itypedMoveFinderTest->RunTests(testHarness->NewTest());
+
+  std::unique_ptr<SquareUnderAttackDeterminerTest> squareUnderAttackDeterminerTest(new SquareUnderAttackDeterminerTest());
+  squareUnderAttackDeterminerTest->RunTests(testHarness->NewTest());
 
   testHarness->OnTestsComplete();
 }

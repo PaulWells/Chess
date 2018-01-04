@@ -18,5 +18,3 @@ Add EnPassantTracker
 
 Add GameState
  - holds board and EnPassantTracker
-
- Add class for determining if a square is in check or not

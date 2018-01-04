@@ -20,6 +20,7 @@ void Test::assert_true(bool statement, const char* message)
 
 void Test::set_name(const char* name)
 {
+    std::cout << "Starting test: " << name << std::endl;
     m_name = std::string(name);
 }
 

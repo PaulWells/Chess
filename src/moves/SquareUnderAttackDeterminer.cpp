@@ -8,8 +8,9 @@
 
 SquareUnderAttackDeterminer::SquareUnderAttackDeterminer()
 {
-    m_moveFinders->push_back(std::unique_ptr<CastleMoveFinder>());
-    m_moveFinders->push_back(std::unique_ptr<BishopMoveFinder>());
+    m_moveFinders = std::make_unique<std::vector<std::unique_ptr<ITypedMoveFinder>>>();
+    m_moveFinders->push_back(std::make_unique<CastleMoveFinder>());
+    m_moveFinders->push_back(std::make_unique<BishopMoveFinder>());
     m_moveFinders->push_back(std::make_unique<KnightMoveFinder>());
     m_moveFinders->push_back(std::make_unique<QueenMoveFinder>());
     m_moveFinders->push_back(std::make_unique<PawnMoveFinder>());
@@ -46,7 +47,7 @@ bool SquareUnderAttackDeterminer::IsSquareUnderAttack(ChessBoard board, Square s
 
         for (int j = 0; j < moves->size(); j++)
         {
-            Move move = moves->at(i);
+            Move move = moves->at(j);
             ChessPiece piece = move.removedPiece;
             if (ChessPieceHelpers::GetPieceType(piece) == moveFinderPieceType)
             {

@@ -125,4 +125,19 @@ namespace ChessBoardHelpers
         int8_t endColumn = square.column + vector.columnVector;
         return  (endRow >= 0 && endRow < BOARD_WIDTH && endColumn >= 0 && endColumn < BOARD_WIDTH);
     }
+
+    inline bool AreBoardsEqual(const ChessBoard& a, const ChessBoard& b)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            for (int j = 0; j < BOARD_WIDTH; j++)
+            {
+                if (a[i][j] != b[i][j])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

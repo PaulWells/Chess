@@ -72,3 +72,20 @@ void ChessBoardTest::SquarePlusVectorTest(std::shared_ptr<Test> test)
     Square resultSquare = { 2, 1 };
     test->assert_true(square + vector == resultSquare, "Square and Vector addition returns the correct square");
 }
+
+void ChessBoardEqualityTest(std::shared_ptr<Test> test)
+{
+    ChessBoard board1 = { 0 };
+    ChessBoard board2 = { 0 };
+
+    test->assert_true(ChessBoardHelpers::AreBoardsEqual(board1, board2), "Two empty boards are equal");
+    ChessPiece bishop = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Bishop, true, false, false);
+    Square square = { 1, 1 };
+
+    ChessBoardHelpers::SetPieceAt(board1, square, bishop);
+    test->assert_false(ChessBoardHelpers::AreBoardsEqual(board1, board2), "Two different boards are not equal");
+
+    ChessBoardHelpers::SetPieceAt(board2, square, bishop);
+    test->assert_false(ChessBoardHelpers::AreBoardsEqual(board1, board2), "Two boards with the same piece are equal");
+
+}
