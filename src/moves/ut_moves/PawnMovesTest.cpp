@@ -16,6 +16,28 @@ void PawnMovesTest::RunTests(std::shared_ptr<Test> test)
     CantMoveIntoFriendlyPieceTest(test);
     CantAttackOffTheBoardTest(test);
     PromotionTest(test);
+    PawnAttackDoesNotWrapAroundBoardTest(test);
+}
+
+void PawnMovesTest::PawnAttackDoesNotWrapAroundBoardTest(std::shared_ptr<Test> test)
+{
+    ChessBoard board = { 0 };
+    ChessPiece whitePawnHasNotMoved = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, false, false, false);
+    ChessPiece blackPawn = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Pawn, true, false, false);
+    ChessPiece blackCastle = ChessPieceHelpers::MakeChessPiece(ChessPieceTypes::Castle, true, false, false);
+
+    board[0][7] = blackCastle;
+    board[1][0] = blackPawn;
+
+    board[2][0] = whitePawnHasNotMoved;
+    Square blackCastleSquare = { 0, 0 };
+    Square blackPawnSquare = { 1, 0 };
+    Square whitePawnSquare = { 2, 0 };
+
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(board, whitePawnSquare);
+
+    test->assert_true(moves->size() == 0, "A pawn attack does not wrap around the board");
 }
 
 void PawnMovesTest::StartingPositionMoveTest(std::shared_ptr<Test> test)

@@ -65,7 +65,10 @@ static void AddDoubleForwardMoveIfValid(
     Square intermediateSquare = startSquare + moveForwardVector;
     Vector moveForwardTwoVector = moveForwardVector * 2;
     Square targetSquare = startSquare + moveForwardTwoVector;
-    if (SquareIsEmpty(board, targetSquare) && SquareIsEmpty(board, intermediateSquare))
+    if (ChessBoardHelpers::OnBoard(targetSquare) &&
+        SquareIsEmpty(board, targetSquare) &&
+        ChessBoardHelpers::OnBoard(intermediateSquare) &&
+        SquareIsEmpty(board, intermediateSquare))
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, moveForwardTwoVector);
         move.endState = ChessPieceHelpers::MarkPawnAsMovedTwoSpaces(move.startState);
@@ -80,7 +83,8 @@ static void AddForwardMoveIfValid(
     std::vector<Move>* moves)
 {
     Square targetSquare = startSquare + moveForwardVector;
-    if (SquareIsEmpty(board, targetSquare))
+    if (ChessBoardHelpers::OnBoard(targetSquare) &&
+        SquareIsEmpty(board, targetSquare))
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, moveForwardVector);
         move.endState = ChessPieceHelpers::ClearMovedTwoSpaces(move.startState);
@@ -96,12 +100,12 @@ static void AddAttackMoveIfValid(
     std::vector<Move>* moves)
 {
     Square targetSquare = startSquare + attackVector;
-    if (SquareContainsOpposingPiece(board, targetSquare, movingPiece))
+    if (ChessBoardHelpers::OnBoard(targetSquare) &&
+        SquareContainsOpposingPiece(board, targetSquare, movingPiece))
     {
         Move move = MoveHelpers::CreateMove(board, startSquare, attackVector);
         move.endState = ChessPieceHelpers::ClearMovedTwoSpaces(move.startState);
         CommitPawnMove(move, moves);
-
     }
 }
 
@@ -110,7 +114,8 @@ static bool SquareContainsOpposingPawnThatJustDoubleJumped(
     Square square,
     ChessPiece piece)
 {
-    if (SquareContainsOpposingPiece(board, square, piece))
+    if (ChessBoardHelpers::OnBoard(square) &&
+        SquareContainsOpposingPiece(board, square, piece))
     {
         ChessPiece targetPiece = ChessBoardHelpers::PieceAt(board, square);
         return (ChessPieceHelpers::IsPawn(targetPiece) &&

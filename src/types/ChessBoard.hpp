@@ -83,6 +83,12 @@ inline Square operator+(const Square& square, const Vector& vector)
     };
 }
 
+inline std::ostream& operator<<(std::ostream& os, const Square& square)
+{
+    os << "Square: (" <<  square.row << ", " << square.column << ")" << std::endl;
+    return os;
+}
+
 inline std::ostream& operator<<(std::ostream& os, const Vector& vector)
 {
     os << "Vector: (" <<  vector.rowVector << ", " << vector.columnVector << ")" << std::endl;
@@ -124,6 +130,11 @@ namespace ChessBoardHelpers
         int8_t endRow = square.row + vector.rowVector;
         int8_t endColumn = square.column + vector.columnVector;
         return  (endRow >= 0 && endRow < BOARD_WIDTH && endColumn >= 0 && endColumn < BOARD_WIDTH);
+    }
+
+    inline bool OnBoard(Square square)
+    {
+        return  (square.row >= 0 && square.row < BOARD_WIDTH && square.column >= 0 && square.column < BOARD_WIDTH);
     }
 
     inline bool AreBoardsEqual(const ChessBoard& a, const ChessBoard& b)

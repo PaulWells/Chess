@@ -14,4 +14,5 @@ private:
     void CantMoveIntoFriendlyPieceTest(std::shared_ptr<Test> test);
     void CantAttackOffTheBoardTest(std::shared_ptr<Test> test);
     void PromotionTest(std::shared_ptr<Test> test);
+    void PawnAttackDoesNotWrapAroundBoardTest(std::shared_ptr<Test> test);
 };

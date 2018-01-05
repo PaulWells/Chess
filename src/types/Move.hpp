@@ -25,7 +25,16 @@ inline bool operator==(const Move& a, const Move& b)
 inline std::ostream& operator<<(std::ostream& os, const Move& move)
 {
     os << move.startState << " takes " << move.removedPiece
-       << "  " << "(" << move.start.row << ", " << move.start.column << ") -> (" << move.end.row << ", " << move.end.column << ")" << std::endl;
+       << "  " << "(" << move.start.row << ", " << move.start.column << ") -> (" << move.end.row << ", " << move.end.column << ")";
+
+    ChessPieceType startPieceType = ChessPieceHelpers::GetPieceType(move.startState);
+    ChessPieceType endPieceType = ChessPieceHelpers::GetPieceType(move.endState);
+    if (startPieceType != endPieceType)
+    {
+        os << " promotes to : " << move.endState;
+    }
+    
+    os << std::endl;
 
     return os;
 }
