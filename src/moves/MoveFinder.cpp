@@ -28,9 +28,9 @@ MoveFinder::MoveFinder()
 std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, bool forBlack)
 {
     std::unique_ptr<std::vector<Move>> moves = std::make_unique<std::vector<Move>>(std::vector<Move>());
-    for (int column = 0; column < BOARD_WIDTH; column++)
+    for (int row = 0; row < BOARD_WIDTH; row++)
     {
-        for (int row = 0; row < BOARD_WIDTH; row++)
+        for (int column = 0; column < BOARD_WIDTH; column++)
         {
             Square square = { row, column };
             ChessPiece piece = ChessBoardHelpers::PieceAt(board, square);

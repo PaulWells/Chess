@@ -2,6 +2,8 @@
 #include "GameState.hpp"
 #include "../types/ChessBoard.hpp"
 #include "../moves/MoveFinder.hpp"
+#include "../players/HumanPlayer.hpp"
+#include "../players/RandomChessPlayer.hpp"
 
 GameManager::GameManager()
 {
@@ -12,23 +14,33 @@ void GameManager::StartGame()
 {
     bool isBlackTurn = false;
     std::unique_ptr<GameState> gameState = std::make_unique<GameState>();
+    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
+
+    std::unique_ptr<IChessPlayer> humanPlayer = std::make_unique<HumanPlayer>();
+    std::unique_ptr<IChessPlayer> randomPlayer = std::make_unique<RandomChessPlayer>();
+
     std::cout << gameState->m_board;
 
-    std::unique_ptr<MoveFinder> moveFinder = std::make_unique<MoveFinder>();
-    std::unique_ptr<std::vector<Move>> moves = moveFinder->FindMoves(gameState->m_board, false /*forBlack*/);
-
-    for (int i = 0; i < moves->size(); i++)
+    while(true)
     {
-        std::cout << i << ": " <<  moves->at(i);
+        Move move;
+        if (!isBlackTurn)
+        {
+            move = humanPlayer->MakeMove(gameState->m_board, isBlackTurn);
+        }
+        else
+        {
+            move = randomPlayer->MakeMove(gameState->m_board, isBlackTurn);
+            std::cout << std::endl << move;
+        }
+
+        m_moveApplicator->ApplyMove(gameState->m_board, move);
+
+        std::cout << gameState->m_board;
+
+        isBlackTurn = !isBlackTurn;
     }
 
-    std::cout << " Choose a move: ";
-    int moveIndex;
-    std::cin >> moveIndex;
-
-    m_moveApplicator->ApplyMove(gameState->m_board, moves->at(moveIndex));
-
-    std::cout << gameState->m_board;
 
 
 }
