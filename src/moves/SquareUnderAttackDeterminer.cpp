@@ -14,7 +14,7 @@ SquareUnderAttackDeterminer::SquareUnderAttackDeterminer()
     m_moveFinders->push_back(std::make_unique<KnightMoveFinder>());
     m_moveFinders->push_back(std::make_unique<QueenMoveFinder>());
     m_moveFinders->push_back(std::make_unique<PawnMoveFinder>());
-    m_moveFinders->push_back(std::make_unique<KingMoveFinder>());
+    m_moveFinders->push_back(std::make_unique<KingMoveFinder>(false /*includeCastlingMoves*/));
 }
 
 bool SquareUnderAttackDeterminer::IsSquareUnderAttack(ChessBoard board, Square square, bool isOpponentBlack)

@@ -25,7 +25,7 @@ void ITypedMoveFinderTest::ITypedFinderReturnsCorrectType(std::shared_ptr<Test> 
     std::unique_ptr<ITypedMoveFinder> bishopMoveFinder = std::make_unique<BishopMoveFinder>();
     std::unique_ptr<ITypedMoveFinder> queenMoveFinder = std::make_unique<QueenMoveFinder>();
     std::unique_ptr<ITypedMoveFinder> pawnMoveFinder = std::make_unique<PawnMoveFinder>();
-    std::unique_ptr<ITypedMoveFinder> kingMoveFinder = std::make_unique<KingMoveFinder>();
+    std::unique_ptr<ITypedMoveFinder> kingMoveFinder = std::make_unique<KingMoveFinder>(true /*includeCastlingMoves*/);
 
     test->assert_true(knightMoveFinder->GetPieceType() == ChessPieceTypes::Knight, "KnightMoveFinderTest has a piece type of Knight");
     test->assert_true(castleMoveFinder->GetPieceType() == ChessPieceTypes::Castle, "CastleMoveFinderTest has a piece type of Castle");

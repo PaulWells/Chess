@@ -33,7 +33,7 @@ inline std::ostream& operator<<(std::ostream& os, const Move& move)
     {
         os << " promotes to : " << move.endState;
     }
-    
+
     os << std::endl;
 
     return os;

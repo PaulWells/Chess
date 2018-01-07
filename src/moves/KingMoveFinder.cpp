@@ -4,6 +4,7 @@
 #include "../types/Move.hpp"
 #include "KingMoveFinder.hpp"
 #include "MoveFinderHelpers.hpp"
+#include "../util/FailFast.hpp"
 
 static const unsigned int s_numberOfCastlesPerPlayer = 2;
 
@@ -12,12 +13,17 @@ static const Square s_blackCastleStartingSquares[s_numberOfCastlesPerPlayer] = {
     { 0, BOARD_WIDTH - 1 }
 };
 
+static const Square s_blackCastleEndSquares[s_numberOfCastlesPerPlayer] = {
+    { 0, 3 },
+    { 0, (BOARD_WIDTH - 1) - 2 }
+};
+
 // The square that the king would end on during a castling
 // move.  Each item corresponds with the item at the same
 // index in s_blackCastleStartingSquares.
 static const Square s_blackCastlingKingEndSquares[s_numberOfCastlesPerPlayer] = {
-    { 0, 0 + 1 },
-    { 0, (BOARD_WIDTH - 1) -1 }
+    { 0, 2 },
+    { 0, (BOARD_WIDTH - 1) - 1 }
 };
 
 static const Square s_whiteCastleStartingSquares[s_numberOfCastlesPerPlayer] = {
@@ -25,12 +31,17 @@ static const Square s_whiteCastleStartingSquares[s_numberOfCastlesPerPlayer] = {
     { BOARD_WIDTH - 1, BOARD_WIDTH - 1 }
 };
 
+static const Square s_whiteCastleEndSquares[s_numberOfCastlesPerPlayer] = {
+    { BOARD_WIDTH - 1, 3 },
+    { BOARD_WIDTH - 1, (BOARD_WIDTH - 1) - 2 }
+};
+
 // The square that the king would end on during a castling
 // move.  Each item corresponds with the item at the same
 // index in s_whiteCastleStartingSquares.
 static const Square s_whiteCastlingKingEndSquares[s_numberOfCastlesPerPlayer] = {
-    { BOARD_WIDTH - 1, 0 + 1 },
-    { BOARD_WIDTH - 1, BOARD_WIDTH - 1 }
+    { BOARD_WIDTH - 1, 2 },
+    { BOARD_WIDTH - 1, (BOARD_WIDTH - 1) - 1 }
 };
 
 // The direction that the king would move during a
@@ -41,7 +52,25 @@ static const Vector s_castlingDirections[s_numberOfCastlesPerPlayer] = {
     { 0,  1 }
 };
 
-KingMoveFinder::KingMoveFinder()
+Square KingMoveFinder::GetCastlePositionAfterCastling(Square kingEndSquare)
+{
+    for (int i = 0; i < s_numberOfCastlesPerPlayer; i++)
+    {
+        if (kingEndSquare == s_whiteCastlingKingEndSquares[i])
+        {
+            return s_whiteCastleEndSquares[i];
+        }
+
+        if (kingEndSquare == s_blackCastlingKingEndSquares[i])
+        {
+            return s_blackCastleEndSquares[i];
+        }
+    }
+    FAIL_FAST("Unexpected castling move");
+    return { 0, 0 };
+}
+
+KingMoveFinder::KingMoveFinder(bool includeCastlingMoves)
 {
     m_straightSlideMoveFinder = std::unique_ptr<IMoveFinder>(
         SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Straight, 1 /*rangeLimit*/));
@@ -49,7 +78,13 @@ KingMoveFinder::KingMoveFinder()
     m_diagonalSlideMoveFinder = std::unique_ptr<IMoveFinder>(
         SlideMoveFinder::CreateSlideMoveFinder(SlideMoveType::Diagonal, 1 /*rangeLimit*/));
 
-    m_squareUnderAttackDeterminer = std::unique_ptr<SquareUnderAttackDeterminer>();
+    m_includeCastlingMoves = includeCastlingMoves;
+    if (includeCastlingMoves)
+    {
+        m_squareUnderAttackDeterminer = std::unique_ptr<SquareUnderAttackDeterminer>(
+            new SquareUnderAttackDeterminer());
+    }
+
 }
 
 static void AddCastlingMove(
@@ -86,7 +121,7 @@ static void GetSquaresBetweenKingAndCastle(
     std::vector<Square>& squares)
 {
     unsigned int totalDistance = std::abs(kingSquare.column - castleSquare.column);
-    for (unsigned int distance = 0; distance < totalDistance; distance++)
+    for (unsigned int distance = 1; distance < totalDistance; distance++)
     {
         Vector moveVector = direction * distance;
         Square square = kingSquare + moveVector;
@@ -122,6 +157,11 @@ bool KingMoveFinder::NoSquareBetweenKingAndCastleIsUnderAttack(ChessBoard board,
     return true;
 }
 
+bool KingMoveFinder::KingIsInCheck(ChessBoard board, Square kingSquare, bool isOpponentBlack)
+{
+    return m_squareUnderAttackDeterminer->IsSquareUnderAttack(board, kingSquare, isOpponentBlack);
+}
+
 void KingMoveFinder::FindCastlingMoves(ChessBoard board, Square kingSquare, std::vector<Move>* moves)
 {
     ChessPiece king = ChessBoardHelpers::PieceAt(board, kingSquare);
@@ -137,23 +177,27 @@ void KingMoveFinder::FindCastlingMoves(ChessBoard board, Square kingSquare, std:
         for (unsigned int i = 0; i < s_numberOfCastlesPerPlayer; i++)
         {
             Square castleStartingSquare = (*startingCastleSquares)[i];
-            std::vector<Square> squaresBetweenKingAndCastle;
-            GetSquaresBetweenKingAndCastle(
-                board,
-                kingSquare,
-                castleStartingSquare,
-                s_castlingDirections[i],
-                squaresBetweenKingAndCastle);
-
             ChessPiece castle = ChessBoardHelpers::PieceAt(board, castleStartingSquare);
-            bool isOpponentBlack = !isKingBlack;
-            if (!ChessPieceHelpers::HasMoved(castle) &&
-                 NoPiecesBetweenKingAndCastle(board, squaresBetweenKingAndCastle) &&
-                 NoSquareBetweenKingAndCastleIsUnderAttack(board, squaresBetweenKingAndCastle, isOpponentBlack))
+            if (ChessPieceHelpers::GetPieceType(castle) == ChessPieceTypes::Castle)
             {
-                AddCastlingMove(kingSquare, (*kingEndSquares)[i], king, castle, castleStartingSquare, moves);
-                // There can only be one valid castling move.
-                continue;
+                std::vector<Square> squaresBetweenKingAndCastle;
+                GetSquaresBetweenKingAndCastle(
+                    board,
+                    kingSquare,
+                    castleStartingSquare,
+                    s_castlingDirections[i],
+                    squaresBetweenKingAndCastle);
+
+                bool isOpponentBlack = !isKingBlack;
+                if (!ChessPieceHelpers::HasMoved(castle) &&
+                     NoPiecesBetweenKingAndCastle(board, squaresBetweenKingAndCastle) &&
+                     !KingIsInCheck(board, kingSquare, isOpponentBlack) &&
+                     NoSquareBetweenKingAndCastleIsUnderAttack(board, squaresBetweenKingAndCastle, isOpponentBlack))
+                {
+                    AddCastlingMove(kingSquare, (*kingEndSquares)[i], king, castle, castleStartingSquare, moves);
+                    // There can only be one valid castling move.
+                    break;
+                }
             }
         }
     }
@@ -165,7 +209,11 @@ std::unique_ptr<std::vector<Move>> KingMoveFinder::FindMoves(ChessBoard board, S
     std::unique_ptr<std::vector<Move>> diagonalMoves = m_diagonalSlideMoveFinder->FindMoves(board, square);
     moves->insert(moves->end(), diagonalMoves->begin(), diagonalMoves->end());
 
-    FindCastlingMoves(board, square, moves.get());
+    if (m_includeCastlingMoves)
+    {
+        FindCastlingMoves(board, square, moves.get());
+    }
+
     return std::move(moves);
 }
 

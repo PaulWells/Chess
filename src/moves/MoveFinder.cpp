@@ -22,7 +22,7 @@ MoveFinder::MoveFinder()
     m_bishopMoveFinder = std::make_unique<BishopMoveFinder>();
     m_queenMoveFinder = std::make_unique<QueenMoveFinder>();
     m_pawnMoveFinder = std::make_unique<PawnMoveFinder>();
-    m_kingMoveFinder = std::make_unique<KingMoveFinder>();
+    m_kingMoveFinder = std::make_unique<KingMoveFinder>(true /*includeCastlingMoves*/);
 }
 
 std::unique_ptr<std::vector<Move>> MoveFinder::FindMoves(ChessBoard board, bool forBlack)
